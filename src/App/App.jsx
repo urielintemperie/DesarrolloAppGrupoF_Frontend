@@ -1,7 +1,6 @@
 import React from 'react';
 import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
@@ -9,17 +8,24 @@ import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import NewEventForm from '../NewEventPage/NewEventForm'
+import {actions as i18nActions} from '_reducers/i18n'
 
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
-        const { dispatch } = this.props;
+        const { clearAlerts } = this.props;
+        
         history.listen((location, action) => {
             // clear alert on location change
-            dispatch(alertActions.clear());
+           clearAlerts()
         });
+    }
+
+    componentDidMount(){
+        const {fetchTranslations} = this.props;
+        fetchTranslations()
     }
 
     render() {
@@ -53,5 +59,11 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedApp = connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch){
+    return {
+        clearAlerts: ()=> { dispatch(alertActions.clear());},fetchTranslations: ()=> {dispatch(i18nActions.fetch())}
+    }
+}
+
+const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 export { connectedApp as App }; 

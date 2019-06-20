@@ -1,0 +1,7 @@
+{
+    "title": "Bienvenidos a React",
+    "description": {
+      "part1": "Para comenzar, editar <1>src/App.js</1> y guarda para que se recargue.",
+      "part2": "Cambia el lenguaje entre las opciones dispoibles con los botones."
+    }
+  }
