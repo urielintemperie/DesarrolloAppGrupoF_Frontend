@@ -156,7 +156,7 @@ class HomePage extends React.Component {
         getTodosEventos()
          .then( todosEventos => {
              console.log(todosEventos);
-             alert(todosEventos);
+             //alert(todosEventos);
              this.setState({ eventos: todosEventos, isLoading: false, eventSelected: todosEventos[0] });
              
              console.log('eventos de state');
@@ -215,7 +215,7 @@ class HomePage extends React.Component {
                         )}
                     </ul>
                 }
-                <Link to="/eventnew"><button>Crear evento</button></Link>
+                <Link to="/event/new"><button>Crear evento</button></Link>
                 <p>
                     <Link to="/login">Logout</Link>
                 </p>

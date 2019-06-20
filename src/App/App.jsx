@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { history } from '../_helpers';
@@ -11,7 +11,9 @@ import { RegisterPage } from '../RegisterPage';
 import Pepita from '../Pepita'
 import CopiaCami from '../CopiaCami'
 
-
+function NoMatch({ location }) {
+    return <h1>404 Not Found for: <br/> {location.pathname}</h1>;
+}
 
 class App extends React.Component {
     constructor(props) {
@@ -35,10 +37,13 @@ class App extends React.Component {
                         }
                         <Router history={history}>
                             <div>
-                                <PrivateRoute exact path="/" component={HomePage} />
-                                <Route path="/login" component={LoginPage} />
-                                <Route path="/register" component={RegisterPage} />
-                                <Route path="/event/new" component={CopiaCami} />   
+                                <Switch>
+                                    <PrivateRoute exact path="/" component={HomePage} />
+                                    <Route path="/login" component={LoginPage} />
+                                    <Route path="/register" component={RegisterPage} />
+                                    <Route path="/event/new" component={CopiaCami} />   
+                                    <Route component={NoMatch} />
+                                </Switch>
                             </div>
                         </Router>
                     </div>
