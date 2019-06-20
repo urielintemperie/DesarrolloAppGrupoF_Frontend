@@ -114,8 +114,8 @@ class HomePage extends React.Component {
         deleteEventById(eventId)
          .then(() => {
              console.log(this.state.eventos);
-             console.log(this.state.eventos.filter(evento => evento.id != eventId));
-             this.setState( { eventos: this.state.eventos.filter(event => event.id != eventId)} );
+             console.log(this.state.eventos.filter(evento => evento.id !== eventId));
+             this.setState( { eventos: this.state.eventos.filter(event => event.id !== eventId)} );
          })
          .catch((e) => {
              console.log(e);
