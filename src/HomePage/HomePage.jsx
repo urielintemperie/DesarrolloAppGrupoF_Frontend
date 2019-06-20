@@ -5,16 +5,7 @@ import { connect } from 'react-redux';
 import { userActions } from '../_actions';
 
 import axios from 'axios';
-
-const server = 'http://localhost:8080';
-
-
-const request = (type, path, body) => axios
-  .request({ url: `${server}${path}`, method: type, data: body })
-  .then(req => req.data);
-
-const getTodosEventos = () => request('get', `/events`);
-const deleteEventById = (id) => request('delete', `/event/delete/${id}`);
+import { getTodosEventos, deleteEventById} from '../Api';
 
 /*
 class Card extends React.Component {
