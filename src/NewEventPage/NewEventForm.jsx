@@ -1,8 +1,8 @@
-//import React from 'react';
 import React, {Component, Fragment} from 'react'
 import {withFormik, Form, Field} from 'formik'
 import Select from 'react-select';
-import Products from './componentsCami/Products'
+import Products from './Products'
+
 
 
 
@@ -14,7 +14,6 @@ const options = [
 const NewEventDisplay = ({
     values,
     setFieldValue,
-
 }) => (
     <Fragment>
     <h1>NUEVO EVENTO</h1>
@@ -37,13 +36,13 @@ const NewEventDisplay = ({
         <br/>
         <DeadlineConfirmation event={values.event}/>
         <br/>
-
         <button type="submit">Crear Evento</button>
         
     </Form>
     
     </Fragment>
 )
+
 
 function DeadlineConfirmation(props) {
     const isParty = props.event === "party"
@@ -65,7 +64,7 @@ function DeadlineConfirmation(props) {
 const axios = require('axios');
 
 
-const CopiaCami = withFormik({
+const NewEventForm = withFormik({
     mapPropsToValues({event}){
         return {
             event: event || 'basket',
@@ -128,9 +127,5 @@ class GuestSelector extends Component {
     }
 }
 
-//export default FormikApp
 
-
-
-//const CopiaCami = () => {return <h1>Falopaaa</h1>}
-export default CopiaCami; 
+export default NewEventForm; 
