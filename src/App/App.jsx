@@ -8,24 +8,25 @@ import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import NewEventForm from '../NewEventPage/NewEventForm'
-import {actions as i18nActions} from '_reducers/i18n'
+import { actions as i18nActions } from '_reducers/i18n'
 import LanguageSelector from '../LanguageSelector'
-
+import NavBar from 'NavBar'
+import Callback from 'Callback'
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         const { clearAlerts } = this.props;
-        
+
         history.listen((location, action) => {
             // clear alert on location change
-           clearAlerts()
+            clearAlerts()
         });
     }
 
-    componentDidMount(){
-        const {fetchTranslations} = this.props;
+    componentDidMount() {
+        const { fetchTranslations } = this.props;
         fetchTranslations()
     }
 
@@ -38,13 +39,15 @@ class App extends React.Component {
                         {alert.message &&
                             <div className={`alert ${alert.type}`}>{alert.message}</div>
                         }
-                        <LanguageSelector/>
+
                         <Router history={history}>
                             <div>
+                                <NavBar />
                                 <PrivateRoute exact path="/" component={HomePage} />
                                 <Route path="/login" component={LoginPage} />
                                 <Route path="/register" component={RegisterPage} />
-                                <Route path="/event/new" component={NewEventForm} />   
+                                <Route path="/event/new" component={NewEventForm} />
+                                <Route path="/callback" component={Callback}/>
                             </div>
                         </Router>
                     </div>
@@ -61,9 +64,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
     return {
-        clearAlerts: ()=> { dispatch(alertActions.clear());},fetchTranslations: ()=> {dispatch(i18nActions.fetch())}
+        clearAlerts: () => { dispatch(alertActions.clear()); }, fetchTranslations: () => { dispatch(i18nActions.fetch()) }
     }
 }
 
