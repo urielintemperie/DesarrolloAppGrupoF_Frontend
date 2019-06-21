@@ -26,7 +26,11 @@ export const actions = {
     }
 }
 
-export const selectors = { getCurrentTranslations: (state) => state.i18n.translations}
+export const selectors = { getCurrentTranslations: (state) => state.i18n.translations,
+isFetching: (state) => state.i18n.fetching,
+getCurrentLanguage: (state) => state.i18n.lang,
+getLanguages: (state) => ([{value: 'es', label:'Español'},{value: 'en', label:'Ingles'}])
+}
 
 const INITIAL_STATE = {
     fetching: false,
