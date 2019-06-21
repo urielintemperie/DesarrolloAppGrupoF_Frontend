@@ -1,10 +1,8 @@
 import React, {Component, Fragment} from 'react'
 import {withFormik, Form, Field} from 'formik'
-import Select from 'react-select';
+import Select from 'react-select'
 import Products from './Products'
-
-
-
+import I18n from '../I18n'
 
 const options = [
     { value: 'cami', label: 'camila.cintioli@gmail.com' },
@@ -16,12 +14,12 @@ const NewEventDisplay = ({
     setFieldValue,
 }) => (
     <Fragment>
-    <h1>NUEVO EVENTO</h1>
+    <h1><I18n id="newEventForm.title"/></h1>
     <Form>
-        <label>Nombre del evento:</label>
+        <label><I18n id="newEventForm.eventName"/></label>
         <Field type="text" name="name" placeholder="Nombre del evento"/>
         <br/>
-        <label>Descripcion:</label>
+        <label><I18n id="newEventForm.description"/></label>
         <Field type="text" name="description" placeholder="Descripcion del evento"/>
         <br/>
         <Field component="select" name="event">
@@ -36,7 +34,7 @@ const NewEventDisplay = ({
         <br/>
         <DeadlineConfirmation event={values.event}/>
         <br/>
-        <button type="submit">Crear Evento</button>
+        <button type="submit"><I18n id="newEventForm.createEvent"/></button>
         
     </Form>
     
@@ -50,7 +48,7 @@ function DeadlineConfirmation(props) {
         return(
             <Fragment>
                 <label>
-                    Fecha limite de confirmacion:
+                <I18n id="newEventForm.deadlineConfirmation"/>
                     <Field name="deadline" placeholder="Fecha" type="date"/>
                 </label>
             </Fragment>
@@ -100,7 +98,6 @@ const NewEventForm = withFormik({
             console.log("FLASHEASTE");
           });
 
-          console.log(values)
         
     }
 })(NewEventDisplay)
@@ -115,7 +112,7 @@ class GuestSelector extends Component {
     render(){
         return (
             <Fragment>
-                <h3>Invitados</h3>
+                <h3><I18n id="newEventForm.guests"/></h3>
                 <Select
                     options={options}
                     isMulti={true}

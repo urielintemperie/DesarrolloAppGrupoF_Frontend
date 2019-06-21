@@ -1,7 +1,17 @@
 {
-  "title": "Welcome to react using react-i18next",
-  "description": {
-    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
-    "part2": "Switch language between english and german using buttons above."
-  }
+  "newEventForm.title": "NEW EVENT",
+  "newEventForm.eventName": "Event's name:",
+  "newEventForm.description": "Description:",
+  "newEventForm.party":"Party",
+  "newEventForm.collect": "Collect",
+  "newEventForm.basquet": "Basket",
+  "newEventForm.guests": "Guests",
+  "newEventForm.deadlineConfirmation":"Deadline to confirm:",
+  "newEventForm.createEvent": "Create event",
+  "newEventForm.productsTable.productsToBuy": "Products to buy",
+  "newEventForm.productsTable.productName": "Name",
+  "newEventForm.productsTable.productPrice": "Price per product",
+  "newEventForm.productsTable.quantityPerPerson": "Quantity per person",
+  "newEventForm.productsTable.addProductButton": "Add Product"
+
 }

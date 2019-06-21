@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import I18n from '../I18n'
 
 class Products extends Component {
 
@@ -55,12 +56,12 @@ var products = this.state.products.slice();
     return product;
   });
     this.setState({products:newProducts});
-  //  console.log(this.state.products);
+  
   };
   render() {
     return (
       <div>
-        <h2>Productos a comprar:</h2>
+        <h2><I18n id="newEventForm.productsTable.productsToBuy"/></h2>
         <br/>
         <ProductTable prodNumber={this.state.products.length} onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
       </div>
@@ -91,9 +92,9 @@ class ProductTable extends Component {
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Precio por unidad</th>
-                <th>Cantidad por persona</th>
+                <th><I18n id="newEventForm.productsTable.productName"/></th>
+                <th><I18n id="newEventForm.productsTable.productPrice"/></th>
+                <th><I18n id="newEventForm.productsTable.quantityPerPerson"/></th>
               </tr>
             </thead>
   
@@ -103,12 +104,12 @@ class ProductTable extends Component {
             </tbody>
   
           </table>
-          <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Agregar Producto</button>
+          <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right"><I18n id="newEventForm.productsTable.addProductButton"/></button>
         </div>
       );
       }
       else{
-        return(<button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Agregar Producto</button>)
+        return(<button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right"><I18n id="newEventForm.productsTable.addProductButton"/></button>)
     }
     
   }

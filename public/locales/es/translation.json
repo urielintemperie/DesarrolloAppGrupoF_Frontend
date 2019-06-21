@@ -1,7 +1,17 @@
 {
-    "title": "Bienvenidos a React",
-    "description": {
-      "part1": "Para comenzar, editar <1>src/App.js</1> y guarda para que se recargue.",
-      "part2": "Cambia el lenguaje entre las opciones dispoibles con los botones."
-    }
-  }
+  "newEventForm.title": "NUEVO EVENTO",
+  "newEventForm.eventName": "Nombre del evento:",
+  "newEventForm.description": "Descripcion:",
+  "newEventForm.party":"Fiesta",
+  "newEventForm.collect": "Baquita",
+  "newEventForm.basquet": "Canasta",
+  "newEventForm.guests": "Invitados",
+  "newEventForm.deadlineConfirmation":"Fecha limite de confirmacion:",
+  "newEventForm.createEvent": "Crear Evento",
+  "newEventForm.productsTable.productsToBuy": "Productos a comprar",
+  "newEventForm.productsTable.productName": "Nombre",
+  "newEventForm.productsTable.productPrice": "Precio por producto",
+  "newEventForm.productsTable.quantityPerPerson": "Cantidad por persona",
+  "newEventForm.productsTable.addProductButton": "Agregar producto"
+
+}
