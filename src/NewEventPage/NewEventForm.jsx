@@ -3,6 +3,8 @@ import {withFormik, Form, Field} from 'formik'
 import Select from 'react-select'
 import Products from './Products'
 import I18n from '../I18n'
+import {connect} from 'react-redux'
+import {actions as eventActions} from '_reducers/event'
 
 const options = [
     { value: 'cami', label: 'camila.cintioli@gmail.com' },
@@ -59,8 +61,6 @@ function DeadlineConfirmation(props) {
     
   }
 
-const axios = require('axios');
-
 
 const NewEventForm = withFormik({
     mapPropsToValues({event}){
@@ -72,8 +72,8 @@ const NewEventForm = withFormik({
             description:""
         }
     },
-    handleSubmit(values) {
-        axios.post('http://localhost:8080/event/new', {
+    handleSubmit(values, {props}) {
+        const event = {
             "productsNeeded": values.products.map(function(p){
                 return {
                     "product": {
@@ -89,16 +89,8 @@ const NewEventForm = withFormik({
             "eventType":values.event,
             "name":values.name,
             "description":values.description
-                
-        })
-          .then(function (response) {
-            console.log("TODO PIOLA");
-          })
-          .catch(function (error) {
-            console.log("FLASHEASTE");
-          });
-
-        
+        }
+       props.createEvent(event)
     }
 })(NewEventDisplay)
 
@@ -124,5 +116,10 @@ class GuestSelector extends Component {
     }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        createEvent: (event) => { dispatch(eventActions.add(event)) }
+    }
+}
 
-export default NewEventForm; 
+export default connect(null, mapDispatchToProps)(NewEventForm); 
