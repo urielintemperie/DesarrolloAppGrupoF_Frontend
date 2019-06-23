@@ -46,6 +46,7 @@ function FullEvent(props) {
     return (
         <div>
             <button onClick={()=>props.deleteEvent(props.event.id)}>Borrar</button>
+            <Link to={`/event/edit/${props.event.id}`}><button>Editar evento</button></Link>
             <h1>{props.event.name}</h1>
             <h2>{props.event.eventType}</h2>
             <h3>Descripcion:</h3>

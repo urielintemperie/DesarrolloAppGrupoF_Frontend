@@ -9,5 +9,7 @@ const request = (type, path, body) => axios
 const getEvento = (eventoId) => request('get', `/event/${eventoId}`);
 const getTodosEventos = () => request('get', `/events`);
 const deleteEventById = (id) => request('delete', `/event/delete/${id}`);
+const newEvent = (body) => request('post', '/event/new', body);
+const editEvent = id => body => request('put', `/event/edit/${id}`, body);
 
-export { getEvento, getTodosEventos, deleteEventById};
+export { getEvento, getTodosEventos, deleteEventById, newEvent, editEvent };

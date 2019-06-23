@@ -8,8 +8,9 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
-import Pepita from '../Pepita'
-import CopiaCami from '../CopiaCami'
+import Pepita from '../Pepita';
+import { NewEventForm } from '../CopiaCami';
+import { EditEventPage } from '../EditEventPage';
 
 function NoMatch({ location }) {
     return <h1>404 Not Found for: <br/> {location.pathname}</h1>;
@@ -41,7 +42,8 @@ class App extends React.Component {
                                     <PrivateRoute exact path="/" component={HomePage} />
                                     <Route path="/login" component={LoginPage} />
                                     <Route path="/register" component={RegisterPage} />
-                                    <Route path="/event/new" component={CopiaCami} />   
+                                    <Route path="/event/new" component={NewEventForm} />   
+                                    <Route path="/event/edit/:eventId" component={EditEventPage} />
                                     <Route component={NoMatch} />
                                 </Switch>
                             </div>

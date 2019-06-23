@@ -7,7 +7,7 @@ class Products extends Component {
     
     this.state = {};
     this.state.filterText = "";
-    this.state.products = [];
+    this.state.products = props.value;
 
   }
   handleUserInput(filterText) {
