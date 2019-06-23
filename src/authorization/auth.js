@@ -1,6 +1,7 @@
 import auth0 from 'auth0-js';
 import config from './config'
 
+
 class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth(config);
@@ -26,6 +27,7 @@ class Auth {
 
   signIn() {
     this.auth0.authorize();
+       
   }
 
   handleAuthentication() {
@@ -39,6 +41,7 @@ class Auth {
         this.profile = authResult.idTokenPayload;
         // set the time that the id token will expire at
         this.expiresAt = authResult.idTokenPayload.exp * 1000;
+        localStorage.setItem('authToken',this.idToken)
         resolve();
       });
     })

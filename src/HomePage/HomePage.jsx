@@ -215,7 +215,7 @@ class HomePage extends React.Component {
                         )}
                     </ul>
                 }
-                <Link to="/eventnew"><button>Crear evento</button></Link>
+                <Link to="/event/new"><button>Crear evento</button></Link>
                 <p>
                     <Link to="/login">Logout</Link>
                 </p>

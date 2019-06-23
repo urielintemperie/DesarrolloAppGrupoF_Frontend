@@ -4,6 +4,7 @@ import auth0Client from 'authorization/auth';
 import LanguageSelector from './LanguageSelector';
 
 function NavBar(props) {
+
   const signOut = () => {
     auth0Client.signOut();
     props.history.replace('/');

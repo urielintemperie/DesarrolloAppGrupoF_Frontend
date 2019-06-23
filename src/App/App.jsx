@@ -9,7 +9,6 @@ import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import NewEventForm from '../NewEventPage/NewEventForm'
 import { actions as i18nActions } from '_reducers/i18n'
-import LanguageSelector from '../LanguageSelector'
 import NavBar from 'NavBar'
 import Callback from 'Callback'
 
@@ -44,7 +43,7 @@ class App extends React.Component {
                             <div>
                                 <NavBar />
                                 <PrivateRoute exact path="/" component={HomePage} />
-                                <Route path="/login" component={LoginPage} />
+                                
                                 <Route path="/register" component={RegisterPage} />
                                 <Route path="/event/new" component={NewEventForm} />
                                 <Route path="/callback" component={Callback}/>
