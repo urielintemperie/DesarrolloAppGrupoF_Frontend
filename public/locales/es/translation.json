@@ -12,6 +12,15 @@
   "newEventForm.productsTable.productName": "Nombre",
   "newEventForm.productsTable.productPrice": "Precio por producto",
   "newEventForm.productsTable.quantityPerPerson": "Cantidad por persona",
-  "newEventForm.productsTable.addProductButton": "Agregar producto"
+  "newEventForm.productsTable.addProductButton": "Agregar producto",
+  "accountPage.title":"CUENTA",
+  "accountPage.moneySign":"$",
+  "accountPage.button.transfer":"Transferir",
+  "accountPage.button.askForLoan":"Pedi un prestamo",
+  "accountPage.movements":"Movimientos",
+  "accountPage.movement.type":"Tipo de movimiento",
+  "accountPage.movement.ammount":"Cantidad",
+  "accountPage.movement.date":"Fecha",
+  "accountPage.movement.forFrom":"De/Para"
 
 }
