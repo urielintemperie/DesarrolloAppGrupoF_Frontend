@@ -16,7 +16,7 @@
   "accountPage.title":"CUENTA",
   "accountPage.moneySign":"$",
   "accountPage.button.transfer":"Transferir",
-  "accountPage.button.askForLoan":"Pedi un prestamo",
+  "accountPage.button.loan":"Tus prestamos",
   "accountPage.movements":"Movimientos",
   "accountPage.movement.type":"Tipo de movimiento",
   "accountPage.movement.ammount":"Cantidad",

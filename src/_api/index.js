@@ -27,9 +27,18 @@ export function addEvent(event) {
 
 export function getAccount() {
     return (
-        axios.get('http://localhost:8080/account/'+ email)
+        axios.get('http://localhost:8080/account/' + email)
             .then(({ data }) => data))
         .catch(() => console.log("FALLO EL GET! "))
 
+}
+
+export function makeTransference(transference) {
+    transference.emailSender = email
+    return (
+        axios.put('http://localhost:8080/account/new/transfer', transference)
+            .then(({ data }) => console.log(data))
+            .catch(() => console.log("FALLA LA TRANSFERENCIA"))
+    )
 }
 
