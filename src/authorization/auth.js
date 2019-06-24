@@ -27,8 +27,18 @@ class Auth {
 
   signIn() {
     this.auth0.authorize();
-       
+
   }
+
+  getEmail(accessToken) {
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        localStorage.setItem('email', JSON.stringify(profile))
+      }
+    });
+  }
+
+
 
   handleAuthentication() {
     return new Promise((resolve, reject) => {
@@ -39,9 +49,11 @@ class Auth {
         }
         this.idToken = authResult.idToken;
         this.profile = authResult.idTokenPayload;
+        this.getEmail(authResult.accessToken)
         // set the time that the id token will expire at
         this.expiresAt = authResult.idTokenPayload.exp * 1000;
-        localStorage.setItem('authToken',this.idToken)
+        localStorage.setItem('authToken', this.idToken)
+
         resolve();
       });
     })
@@ -58,3 +70,9 @@ class Auth {
 const auth0Client = new Auth();
 
 export default auth0Client;
+
+export function getUserEmail(){
+  const profile = JSON.parse(localStorage.getItem('email'))
+  const nick = profile ? profile.nickname : ''
+  return `${nick}@gmail.com`
+}
