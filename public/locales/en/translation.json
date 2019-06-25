@@ -21,6 +21,14 @@
   "accountPage.movement.type":"Movement type",
   "accountPage.movement.ammount":"Amount",
   "accountPage.movement.date":"Date",
-  "accountPage.movement.forFrom":"For/From"
+  "accountPage.movement.forFrom":"For/From",
+  "loanPage.title":"YOUR LOANS",
+  "loanPage.loanInformation":"You can ask for a $1000 loan. It will be paid in six monthly fees of $200 each. The fees will be automatically withdrawn of your account on the fifth of each month. If you don't have enough money that month, the fee will be pendent until it can be payed. ",
+  "loanPage.loanButton":"Ask for your loan",
+  "loanPage.currentLoan":"Your loan",
+  "loanPage.fees":"Fees",
+  "loanPage.feeNumber":"Fee number",
+  "loanPage.feeStatus":"Fee status",
+  "loanPage.paid":"PAID",
+  "loanPage.unpaid":"UNPAID"
 }
-

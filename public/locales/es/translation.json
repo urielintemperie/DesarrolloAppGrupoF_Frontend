@@ -21,6 +21,15 @@
   "accountPage.movement.type":"Tipo de movimiento",
   "accountPage.movement.ammount":"Cantidad",
   "accountPage.movement.date":"Fecha",
-  "accountPage.movement.forFrom":"De/Para"
+  "accountPage.movement.forFrom":"De/Para",
+  "loanPage.title":"TUS PRESTAMOS",
+  "loanPage.loanInformation":"Podrá solicitar $1000 a retornar en 6 cuotas mensuales de $200 cada una. Las cuotas serán debitadas automáticamente de su cuenta el día 5 de cada mes. Si no posee el dinero suficiente, la cuota quedará pendiente hasta que existan fondos y pasa a ser moroso.",
+  "loanPage.loanButton":"Pedi tu prestamo",
+  "loanPage.currentLoan":"Tu prestamos actual",
+  "loanPage.fees":"Cuotas",
+  "loanPage.feeNumber":"Numero de cuota",
+  "loanPage.feeStatus":"Estado de cuota",
+  "loanPage.paid":"PAGA",
+  "loanPage.unpaid":"IMPAGA"
 
 }

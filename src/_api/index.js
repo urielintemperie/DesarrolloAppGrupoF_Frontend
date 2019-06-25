@@ -48,6 +48,21 @@ export function makeTransference(transference) {
     )
 }
 
+export function askForLoan(){
+    return (
+        axios.post('http://localhost:8080/loan/new/'+ email)
+            .then(({ data }) => data)
+            .catch(() => console.log("FALLO EL PRESTAMO"))
+    )
+}
+
+export function fetchLoan(){
+    return(
+        axios.get('http://localhost:8080/loan/'+ email)
+        .then(({data})=>data)
+        
+    )
+}
 
 
 

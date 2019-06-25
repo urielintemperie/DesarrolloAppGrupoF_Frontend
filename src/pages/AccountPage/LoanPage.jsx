@@ -1,17 +1,48 @@
 import React, { Component, Fragment } from "react"
 import { Button, Row, Col } from 'reactstrap';
+import { askForLoan, fetchLoan } from '_api'
+import I18n from 'I18n'
+
 
 class LoanPage extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loan: {},
+            disabled : false,
+            
+        }
+
+        this.handleClick = this.handleClick.bind(this)
+       
+    }
+
+    componentDidMount(){
+        fetchLoan()
+        .then((loan)=> this.setState({loan:loan,disabled:true}))
+        .catch(() => console.log("Fallo el loan get"))
+    }
+
+    handleClick(e) {
+        e.preventDefault();
+
+        askForLoan().then((loan) => this.setState({loan:loan,disabled:true})).catch(() => console.log("LALALALA"))
+        
+    }
 
     render() {
         return (
             <Fragment>
-                <h1>TUS PRESTAMOS</h1>
-                <h4>Podrá solicitar $1000 a retornar en 6 cuotas mensuales de $200 cada una. Las cuotas serán debitadas automáticamente de su cuenta el día 5 de cada
-                mes. Si no posee el dinero suficiente, la cuota quedará pendiente hasta que existan fondos y pasa a ser moroso.
+                <h1><I18n id="loanPage.title"/></h1>
+                <h4>
+                    <I18n id="loanPage.loanInformation"/>
                 </h4>
-                <AskForLoanButton />
-                <LoanInformation />
+                <Button color="primary" disabled={this.state.disabled} onClick={this.handleClick}><I18n id="loanPage.loanButton"/></Button>
+                <LoanInformation loan={this.state.loan} />
+
+                       
+                
             </Fragment>
         );
     }
@@ -21,43 +52,40 @@ class LoanPage extends Component {
 
 
 
-function AskForLoanButton(props) {
+function LoanInformation(props) {
 
-    function handleClick(e) {
-        e.preventDefault();
-        //llamar a api.pedir prestamo
-        console.log('The link was clicked.');
+    var feeId = 0;
+    function uniqueFeeId() {
+        return feeId++;
+    }
+
+    const isLoan = (Object.keys(props.loan).length === 0)
+
+    if (isLoan) {
+        return null;
     }
 
     return (
-        <Button color="secondary" onClick={handleClick}>Pedi tu prestamo!</Button>
-    )
-}
 
-const fees = [1,2,3,4,5]
-var movementId = 0;
-function uniqueMovementId() {
-    return movementId++;
-}
-
-function LoanInformation(props) {
-    return (
         <Fragment>
-            <h2>Prestamo actual</h2>
-            <h3>Cuotas:</h3>
+            <h2><I18n id="loanPage.currentLoan"/></h2>
+            <h3><I18n id="loanPage.fees"/></h3>
             <Row>
-                <Col><h4>Numero</h4></Col>
-                <Col><h4>Estado</h4></Col>
+                <Col><h4><I18n id="loanPage.feeNumber"/></h4></Col>
+                <Col><h4><I18n id="loanPage.feeStatus"/></h4></Col>
             </Row>
-            {fees.map(fee => {
+
+            {props.loan.fees.map((fee, index) => {
                 return (
-                    <Row key={uniqueMovementId()}>
-                    <Col>{fee}</Col>
-                    <Col>PAGA</Col>
-                    </Row> 
+                    <Row key={uniqueFeeId()}>
+                        <Col>{index}</Col>
+                        <Col>{fee.paid ? <I18n id="loanPage.paid"/> : <I18n id="loanPage.unpaid"/>}</Col>
+                    </Row>
                 );
             })}
         </Fragment>
+
+
     )
 }
 
