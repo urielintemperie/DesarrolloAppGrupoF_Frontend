@@ -1,19 +1,27 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { history } from '../_helpers';
-import { alertActions } from '../_actions';
+import { alertActions } from '_actions';
 import { PrivateRoute } from '../_components';
-import { HomePage } from '../HomePage';
-import { LoginPage } from '../LoginPage';
-import { RegisterPage } from '../RegisterPage';
-import LoanPage from 'AccountPage/LoanPage'
-import NewEventForm from '../NewEventPage/NewEventForm'
+import { HomePage } from '../pages/HomePage';
+import { RegisterPage } from '../pages/RegisterPage';
+import LoanPage from '../pages/AccountPage/LoanPage'
+import {NewEventForm }from '../pages/NewEventPage/NewEventForm'
 import { actions as i18nActions } from '_reducers/i18n'
 import NavBar from 'NavBar'
-import Callback from 'Callback'
-import AccountPage from 'AccountPage/AccountPage'
+import Callback from 'authorization/Callback'
+import AccountPage from '../pages/AccountPage/AccountPage'
+import { EditEventPage } from '../pages/EditEventPage/EditEventPage';
 
+
+
+
+
+
+function NoMatch({ location }) {
+    return <h1>404 Not Found for: <br /> {location.pathname}</h1>;
+}
 
 class App extends React.Component {
     constructor(props) {
@@ -44,14 +52,20 @@ class App extends React.Component {
 
                         <Router history={history}>
                             <div>
+
                                 <NavBar />
-                                <PrivateRoute exact path="/" component={HomePage} />
-                                
-                                <Route path="/register" component={RegisterPage} />
-                                <Route path="/event/new" component={NewEventForm} />
-                                <Route path="/callback" component={Callback}/>
-                                <Route path="/account" component={AccountPage}/>
-                                <Route path="/loan" component={LoanPage}/>
+                                <Switch>
+                                    <PrivateRoute exact path="/" component={HomePage} />
+                                    <Route path="/register" component={RegisterPage} />
+                                    <Route path="/event/new" component={NewEventForm} />
+                                    <Route path="/callback" component={Callback} />
+                                    <Route path="/account" component={AccountPage} />
+                                    <Route path="/loan" component={LoanPage} />
+                                    <Route path="/home" component={HomePage}/>
+                                    <Route path="/event/edit/:eventId" component={EditEventPage} />
+                                    <Route component={NoMatch} />
+                                </Switch>
+
                             </div>
                         </Router>
                     </div>

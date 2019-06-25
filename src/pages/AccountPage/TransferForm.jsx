@@ -1,7 +1,7 @@
 import React from "react"
 import { Formik } from 'formik';
 import { makeTransference } from '_api'
-import { history } from '../_helpers';
+import { history } from '_helpers';
 
 function TransferForm(props) {
     return (

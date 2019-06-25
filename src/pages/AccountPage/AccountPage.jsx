@@ -2,9 +2,10 @@ import React, { Component, Fragment } from "react"
 import { connect } from 'react-redux'
 import { actions as accountActions, selectors as accountSelectors } from '_reducers/account'
 import { Button, Row, Col } from 'reactstrap';
-import I18n from '../I18n'
+import I18n from '../../I18n'
 import Popup from "reactjs-popup";
-import TransferForm from 'AccountPage/TransferForm'
+import TransferForm from './TransferForm'
+import { Link } from 'react-router-dom';
 
 
 class AccountPage extends Component {
@@ -14,7 +15,7 @@ class AccountPage extends Component {
             <Fragment>
                 <h1><I18n id="accountPage.title" /></h1>
                 <BalanceDisplay balance={this.props.balance} />
-                <TransferButton/>
+                <TransferButton />
                 <LoanRequestButton />
                 <MovementHistory history={this.props.history || []} />
             </Fragment>
@@ -36,10 +37,10 @@ function BalanceDisplay(props) {
 function TransferButton(props) {
 
     return (
-        <Popup trigger={<Button color="primary"><I18n id="accountPage.button.transfer" /> </Button>} position="center center">
+        <Popup trigger={<Button color="primary" ><I18n id="accountPage.button.transfer" /> </Button>} position="center center">
             <div>
                 <h5>REALIZA UNA TRANSFERENCIA</h5>
-                <TransferForm/>
+                <TransferForm />
             </div>
         </Popup>
     )
@@ -49,7 +50,10 @@ function TransferButton(props) {
 
 function LoanRequestButton(props) {
     return (
-        <Button color="primary"><I18n id="accountPage.button.loan" /></Button>
+        <Link to="/loan">
+            <Button color="primary"><I18n id="accountPage.button.loan" /></Button>
+        </Link>
+
     )
 }
 

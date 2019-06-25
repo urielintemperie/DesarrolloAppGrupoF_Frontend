@@ -2,19 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { userActions } from '../_actions';
+import { userActions } from '_actions';
 
 import axios from 'axios';
-
-const server = 'http://localhost:8080';
-
-
-const request = (type, path, body) => axios
-  .request({ url: `${server}${path}`, method: type, data: body })
-  .then(req => req.data);
-
-const getTodosEventos = () => request('get', `/events`);
-const deleteEventById = (id) => request('delete', `/event/delete/${id}`);
+import { getTodosEventos, deleteEventById} from '_api';
 
 /*
 class Card extends React.Component {
@@ -55,6 +46,7 @@ function FullEvent(props) {
     return (
         <div>
             <button onClick={()=>props.deleteEvent(props.event.id)}>Borrar</button>
+            <Link to={`/event/edit/${props.event.id}`}><button>Editar evento</button></Link>
             <h1>{props.event.name}</h1>
             <h2>{props.event.eventType}</h2>
             <h3>Descripcion:</h3>
@@ -101,7 +93,9 @@ class HomePage extends React.Component {
             eventos: [],
             isLoading: true,
             showPopup: false,
-            eventSelected: null
+            eventSelected: null,
+            user: localStorage.getItem('email')
+            
         }
         this.buscarEventos = this.buscarEventos.bind(this);
         this.displayEventos = this.displayEventos.bind(this);
@@ -156,7 +150,7 @@ class HomePage extends React.Component {
         getTodosEventos()
          .then( todosEventos => {
              console.log(todosEventos);
-             alert(todosEventos);
+             //alert(todosEventos);
              this.setState({ eventos: todosEventos, isLoading: false, eventSelected: todosEventos[0] });
              
              console.log('eventos de state');
@@ -168,11 +162,11 @@ class HomePage extends React.Component {
     }
 
     render() {
-        const { user, users } = this.props;
+        const { users } = this.props;
         return (
             <div>
                 
-                <h1>Hi {user.name}!</h1>
+                {/* <h1>Hi {user.name}!</h1> */}
 
                 <h2>Evento selecionado</h2>
                 {!(this.state.eventSelected == null) ? (

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import I18n from '../I18n'
+import I18n from '../../I18n'
 
 class Products extends Component {
 
@@ -8,7 +8,7 @@ class Products extends Component {
     
     this.state = {};
     this.state.filterText = "";
-    this.state.products = [];
+    this.state.products = props.value;
 
   }
   handleUserInput(filterText) {
