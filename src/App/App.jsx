@@ -7,11 +7,13 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
+import LoanPage from 'AccountPage/LoanPage'
 import NewEventForm from '../NewEventPage/NewEventForm'
 import { actions as i18nActions } from '_reducers/i18n'
 import NavBar from 'NavBar'
 import Callback from 'Callback'
 import AccountPage from 'AccountPage/AccountPage'
+
 
 class App extends React.Component {
     constructor(props) {
@@ -49,6 +51,7 @@ class App extends React.Component {
                                 <Route path="/event/new" component={NewEventForm} />
                                 <Route path="/callback" component={Callback}/>
                                 <Route path="/account" component={AccountPage}/>
+                                <Route path="/loan" component={LoanPage}/>
                             </div>
                         </Router>
                     </div>
