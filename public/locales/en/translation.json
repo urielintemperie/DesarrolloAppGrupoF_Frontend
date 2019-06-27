@@ -30,5 +30,20 @@
   "loanPage.feeNumber":"Fee number",
   "loanPage.feeStatus":"Fee status",
   "loanPage.paid":"PAID",
-  "loanPage.unpaid":"UNPAID"
+  "loanPage.unpaid":"UNPAID",
+  "eventDisplay.eventName":"Event's name:",
+  "eventDisplay.eventDescription":"Description:",
+  "eventDisplay.eventDate":"Date:",
+  "eventDisplay.confirmAssistanceButton":"Confirm Assistance",
+  "eventDisplay.editEventButton":"Edit event",
+  "eventDisplay.deleteEventButton":"Delete event",
+  "eventDisplay.party.confirmationDeadline":"Confirmation deadline:",
+  "eventDisplay.party.toBuy":"To buy",
+  "eventDisplay.product.product":"Product",
+  "eventDisplay.product.quantity":"Quantity",
+  "eventDisplay.product.price":"Price",
+  "eventDisplay.party.total":"Total: US$",
+  "eventDisplay.basket.reserveProductButton":"Reserve product",
+  "eventDisplay.basket.products":"Products",
+  "eventDisplay.collect.shouldPay":"You should pay: US$"  
 }

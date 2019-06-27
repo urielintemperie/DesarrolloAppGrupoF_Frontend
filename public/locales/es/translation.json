@@ -30,6 +30,21 @@
   "loanPage.feeNumber":"Numero de cuota",
   "loanPage.feeStatus":"Estado de cuota",
   "loanPage.paid":"PAGA",
-  "loanPage.unpaid":"IMPAGA"
+  "loanPage.unpaid":"IMPAGA",
+  "eventDisplay.eventName":"Nombre de evento:",
+  "eventDisplay.eventDescription":"Descripción:",
+  "eventDisplay.eventDate":"Fecha:",
+  "eventDisplay.confirmAssistanceButton":"Confirma tu asistencia",
+  "eventDisplay.editEventButton":"Editar evento",
+  "eventDisplay.deleteEventButton":"Borrar evento",
+  "eventDisplay.party.confirmationDeadline":"Fecha limite para confirmar:",
+  "eventDisplay.party.toBuy":"Para comprar",
+  "eventDisplay.product.product":"Producto",
+  "eventDisplay.product.quantity":"Cantidad",
+  "eventDisplay.product.price":"Precio",
+  "eventDisplay.party.total":"Total a pagar: $",
+  "eventDisplay.basket.reserveProductButton":"Reservar producto",
+  "eventDisplay.basket.products":"Productos",
+  "eventDisplay.collect.shouldPay":"Tenes que pagar: $"  
 
 }
