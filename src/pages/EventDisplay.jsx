@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { Button, Row, Col } from 'reactstrap'
 import Select from 'react-select'
 import I18n from '../I18n'
+import { deleteEventById } from '_api'
+import { Link } from 'react-router-dom';
 
 function EventDisplay(props) {
     return (
@@ -15,9 +17,9 @@ function EventDisplay(props) {
 function GenericEventInformation(props) {
     return (
         <Fragment>
-            <h3><I18n id="eventDisplay.eventName"/> {props.name}</h3>
-            <h3><I18n id="eventDisplay.eventDescription"/></h3>
-            <h3><I18n id="eventDisplay.eventDate"/> {props.date.split("T00:00:00")}</h3>
+            <h3><I18n id="eventDisplay.eventName" /> {props.name}</h3>
+            <h3><I18n id="eventDisplay.eventDescription" /></h3>
+            <h3><I18n id="eventDisplay.eventDate" /> {props.date.split("T00:00:00")}</h3>
         </Fragment>
     )
 }
@@ -35,15 +37,21 @@ class EventInformation extends Component {
         }
 
         this.confirmAssistance = this.confirmAssistance.bind(this);
-        
+        this.deleteEvent = this.deleteEvent.bind(this);
+
     }
 
-    confirmAssistance(){
-        if(this.props.type==="Party"){this.setState({party:true})}
-        if(this.props.type==="Basket"){this.setState({basket:true})}
-        if(this.props.type==="Collect"){this.setState({collect:true})}
-        this.setState({disabled:true})
+    confirmAssistance() {
+        if (this.props.type === "Party") { this.setState({ party: true }) }
+        if (this.props.type === "Basket") { this.setState({ basket: true }) }
+        if (this.props.type === "Collect") { this.setState({ collect: true }) }
+        this.setState({ disabled: true })
     }
+
+    deleteEvent() {
+        deleteEventById(this.props.event.id)
+    }
+
 
     render() {
 
@@ -51,9 +59,9 @@ class EventInformation extends Component {
             <Fragment>
                 <EventInfo party={this.state.party} collect={this.state.collect} basket={this.state.basket} event={this.props.event} />
                 <br />
-                <Button color="primary" onClick={this.confirmAssistance} disabled={this.state.disabled}><I18n id="eventDisplay.confirmAssistanceButton"/></Button>
-                <Button color="primary"><I18n id="eventDisplay.editEventButton"/></Button>
-                <Button color="danger"><I18n id="eventDisplay.deleteEventButton"/></Button>
+                <Button color="primary" onClick={this.confirmAssistance} disabled={this.state.disabled}><I18n id="eventDisplay.confirmAssistanceButton" /></Button>
+                <Link to={`/event/edit/${this.props.event.id}`}><Button color="primary"><I18n id="eventDisplay.editEventButton" /></Button></Link>
+                <Button color="danger" onClick={this.deleteEvent}><I18n id="eventDisplay.deleteEventButton" /></Button>
 
             </Fragment>
         )
@@ -62,15 +70,15 @@ class EventInformation extends Component {
 
 function EventInfo(props) {
     if (props.party) {
-        return <PartyDisplay event={props.event}/>
+        return <PartyDisplay event={props.event} />
     }
 
     if (props.basket) {
-        return <BasketDisplay event={props.event}/>
+        return <BasketDisplay event={props.event} />
     }
 
     if (props.collect) {
-        return <CollectDisplay event={props.event}/>
+        return <CollectDisplay event={props.event} />
     }
 
     if (!props.party && !props.basket && !props.collect) {
@@ -85,19 +93,19 @@ function uniqueProductId() {
 
 function PartyDisplay(props) {
 
-    var prices=[]
+    var prices = []
 
     return (
         <Fragment>
-            <h3><I18n id="eventDisplay.party.confirmationDeadline"/> {props.event.deadlineConfirmation.split("T00:00:00")}</h3>
-            <h3><I18n id="eventDisplay.party.toBuy"/></h3>
+            <h3><I18n id="eventDisplay.party.confirmationDeadline" /> {props.event.deadlineConfirmation.split("T00:00:00")}</h3>
+            <h3><I18n id="eventDisplay.party.toBuy" /></h3>
             <Row>
-                <Col><h4><I18n id="eventDisplay.product.product"/></h4></Col>
-                <Col><h4><I18n id="eventDisplay.product.quantity"/></h4></Col>
-                <Col><h4><I18n id="eventDisplay.product.price"/></h4></Col>
+                <Col><h4><I18n id="eventDisplay.product.product" /></h4></Col>
+                <Col><h4><I18n id="eventDisplay.product.quantity" /></h4></Col>
+                <Col><h4><I18n id="eventDisplay.product.price" /></h4></Col>
             </Row>
             {props.event.productsNeeded.map((product) => {
-                return(
+                return (
                     <Row key={uniqueProductId()}>
                         <Col>{product.product.name}</Col>
                         <Col>{product.product.price}</Col>
@@ -107,8 +115,8 @@ function PartyDisplay(props) {
                 )
             }
             )}
-            
-            <h3><I18n id="eventDisplay.party.total"/>{prices.reduce((a,b) => a + b, 0)}</h3>
+
+            <h3><I18n id="eventDisplay.party.total" />{prices.reduce((a, b) => a + b, 0)}</h3>
 
         </Fragment>
     )
@@ -132,8 +140,8 @@ class BasketDisplay extends Component {
     render() {
         return (
             <Fragment>
-                <ProductsSelector onChange={this.onChange} products={this.props.event.productsNeeded}/>
-                <Button color="primary"><I18n id="eventDisplay.basket.reserveProductButton"/></Button>
+                <ProductsSelector onChange={this.onChange} products={this.props.event.productsNeeded} />
+                <Button color="primary"><I18n id="eventDisplay.basket.reserveProductButton" /></Button>
             </Fragment>
         )
     }
@@ -142,17 +150,17 @@ class BasketDisplay extends Component {
 
 function CollectDisplay(props) {
 
-    var prices=[]
+    var prices = []
 
     return (
         <Fragment>
             <Row>
-                <Col><h4><I18n id="eventDisplay.product.product"/></h4></Col>
-                <Col><h4><I18n id="eventDisplay.product.quantity"/></h4></Col>
-                <Col><h4><I18n id="eventDisplay.product.price"/></h4></Col>
+                <Col><h4><I18n id="eventDisplay.product.product" /></h4></Col>
+                <Col><h4><I18n id="eventDisplay.product.quantity" /></h4></Col>
+                <Col><h4><I18n id="eventDisplay.product.price" /></h4></Col>
             </Row>
             {props.event.productsNeeded.map((product) => {
-                return(
+                return (
                     <Row key={uniqueProductId()}>
                         <Col>{product.product.name}</Col>
                         <Col>{product.product.price}</Col>
@@ -163,7 +171,7 @@ function CollectDisplay(props) {
             }
             )}
 
-            <h3><I18n id="eventDisplay.collect.shouldPay"/>{(prices.reduce((a,b) => a + b, 0)/props.event.attendees.length).toFixed(2)}</h3>
+            <h3><I18n id="eventDisplay.collect.shouldPay" />{(prices.reduce((a, b) => a + b, 0) / props.event.attendees.length).toFixed(2)}</h3>
         </Fragment>
     )
 }
@@ -172,7 +180,7 @@ function CollectDisplay(props) {
 
 class ProductsSelector extends Component {
 
- 
+
 
     handleChange = value => {
         this.props.onChange(value.label)
@@ -181,11 +189,11 @@ class ProductsSelector extends Component {
     render() {
 
         let pepita = []
-        this.props.products.map((product) => pepita.push({value:product.product.name, label:product.product.name + " - " + product.amount + " unidades"}))
+        this.props.products.map((product) => pepita.push({ value: product.product.name, label: product.product.name + " - " + product.amount + " unidades" }))
 
         return (
             <Fragment>
-                <h3><I18n id="eventDisplay.basket.products"/></h3>
+                <h3><I18n id="eventDisplay.basket.products" /></h3>
                 <Select
                     options={pepita}
                     isMulti={false}
