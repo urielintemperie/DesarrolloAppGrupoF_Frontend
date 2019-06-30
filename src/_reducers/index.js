@@ -6,6 +6,7 @@ import { users } from './users.reducer';
 import { alert } from './alert.reducer';
 import i18n from '_reducers/i18n'
 import account from '_reducers/account'
+import event from '_reducers/event'
 
 const rootReducer = combineReducers({
   authentication,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   users,
   alert,
   i18n,
-  account
+  account,
+  event
 });
 
 export default rootReducer;

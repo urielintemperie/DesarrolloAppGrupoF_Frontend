@@ -4,8 +4,8 @@ import { getUserEmail } from 'authorization/auth'
 const server = 'http://localhost:8080';
 
 const request = (type, path, body) => axios
-  .request({ url: `${server}${path}`, method: type, data: body })
-  .then(req => req.data);
+    .request({ url: `${server}${path}`, method: type, data: body })
+    .then(req => req.data);
 
 const config = {
     headers: {
@@ -48,22 +48,42 @@ export function makeTransference(transference) {
     )
 }
 
-export function askForLoan(){
+export function askForLoan() {
     return (
-        axios.post('http://localhost:8080/loan/new/'+ email)
+        axios.post('http://localhost:8080/loan/new/' + email)
             .then(({ data }) => data)
             .catch(() => console.log("FALLO EL PRESTAMO"))
     )
 }
 
-export function fetchLoan(){
-    return(
-        axios.get('http://localhost:8080/loan/'+ email)
-        .then(({data})=>data)
-        
+export function fetchLoan() {
+    return (
+        axios.get('http://localhost:8080/loan/' + email)
+            .then(({ data }) => data)
+
     )
 }
 
+export function fetchOngoingEvents(page, size) {
+    return (
+        axios.get(`http://localhost:8080/event/ongoing/${email}/` + page + '/' + size)
+            .then(({ data }) => data)
+    )
+}
+
+export function fetchPopularEvents(page, size) {
+    return (
+        axios.get(`http://localhost:8080/event/popular/${email}/` + page + '/' + size)
+            .then(({ data }) => data)
+    )
+}
+
+export function fetchLastEvents(page,size){
+    return (
+        axios.get(`http://localhost:8080/event/last/${email}/` + page + '/' + size)
+            .then(({ data }) => data)
+    )
+}
 
 
 const getEvento = (eventoId) => request('get', `/event/${eventoId}`);
