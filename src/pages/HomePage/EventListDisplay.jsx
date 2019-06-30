@@ -2,6 +2,11 @@ import React, { Fragment } from 'react'
 import EventRowDisplay from './EventRowDisplay'
 import { connect } from 'react-redux'
 import { selectors as eventSelectors, actions as eventActions } from '_reducers/event'
+import I18n from '../../I18n'
+
+
+
+
 
 function EventListDisplay(props) {
 
@@ -17,7 +22,7 @@ function EventListDisplay(props) {
 function OngoingEvent(props) {
     return (
         <Fragment>
-            <h3>Eventos en curso:</h3>
+            <h3><I18n id="homePage.ongoingEvents"/></h3>
             <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
         </Fragment>
     )
@@ -26,7 +31,7 @@ function OngoingEvent(props) {
 function PopularEvent(props) {
     return (
         <Fragment>
-            <h3>Eventos populares:</h3>
+            <h3><I18n id="homePage.popularEvents"/></h3>
             <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
         </Fragment>
     )
@@ -35,7 +40,7 @@ function PopularEvent(props) {
 function LastEvent(props) {
     return (
         <Fragment>
-            <h3>Ultimos eventos:</h3>
+            <h3><I18n id="homePage.lastEvents"/></h3>
             <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
         </Fragment>
     )

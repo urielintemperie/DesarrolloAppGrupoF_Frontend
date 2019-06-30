@@ -45,6 +45,11 @@
   "eventDisplay.party.total":"Total a pagar: $",
   "eventDisplay.basket.reserveProductButton":"Reservar producto",
   "eventDisplay.basket.products":"Productos",
-  "eventDisplay.collect.shouldPay":"Tenes que pagar: $"  
-
+  "eventDisplay.collect.shouldPay":"Tenes que pagar: $",
+  "homePage.title": "Mis eventos",
+  "homePage.ongoingEvents": "Eventos en curso",
+  "homePage.popularEvents": "Eventos populares",
+  "homePage.lastEvents": "Ultimos eventos",
+  "homePage.createEvent": "Crea un evento",
+  "homePage.account": "Mi cuenta"  
 }
