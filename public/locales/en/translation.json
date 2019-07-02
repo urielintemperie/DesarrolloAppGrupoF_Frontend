@@ -1,5 +1,6 @@
 {
   "newEventForm.title": "NEW EVENT",
+  "newEventForm.titleEdit": "EDIT EVENT",
   "newEventForm.eventName": "Event's name:",
   "newEventForm.description": "Description:",
   "newEventForm.date": "Date of event:",

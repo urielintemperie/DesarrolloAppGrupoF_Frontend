@@ -26,7 +26,13 @@ const NewEventDisplay = ({
 }) => {
     return (
         <Fragment>
-            <h1><I18n id="newEventForm.title" /></h1>
+            <h1>
+            {values.name === "" ?
+            (<I18n id="newEventForm.title" />)
+            :
+            (<I18n id="newEventForm.titleEdit" />)
+            }
+            </h1>
             <Form>
                 <label><I18n id="newEventForm.eventName" /></label>
                 <Field type="text" name="name" placeholder="Nombre del evento" />
@@ -103,8 +109,13 @@ const GenericEventForm = withFormik({
         return props.valoresIniciales;
     },
     handleSubmit(values, props) {
+        let userEmail = getUserEmail();
+        let guestsMails = values.guests.map(function (x) {
+            return x.label
+        });
+        if(!guestsMails.includes(userEmail)) { guestsMails.push(userEmail) }
         const bodyREST = {
-            "creatorEmail": getUserEmail(),
+            "creatorEmail": userEmail,
             "dayOfEvent": values.date,
             "productsNeeded": values.products.map(function (p) {
                 return {
@@ -115,9 +126,7 @@ const GenericEventForm = withFormik({
                     "amount": p.qty
                 }
             }),
-            "guestsMails": values.guests.map(function (x) {
-                return x.label
-            }),
+            "guestsMails": guestsMails,
             "eventType": values.event,
             "name": values.name,
             "description": values.description
