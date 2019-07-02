@@ -108,7 +108,7 @@ export function getEventById(eventId) {
     )
 }
 
-const getEvento = (eventoId) => request('get', `/event/${eventoId}`).then(({ data }) => data)
+const getEvento = (eventoId) => request('get', `/event/${eventoId}`)//.then(({ data }) => data)
 const getTodosEventos = () => request('get', `/events`);
 const deleteEventById = (id) => request('delete', `/event/delete/${id}`);
 const newEvent = (body) => request('post', '/event/new', body);

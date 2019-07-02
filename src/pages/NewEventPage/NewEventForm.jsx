@@ -7,6 +7,7 @@ import I18n from '../../I18n'
 import { connect } from 'react-redux'
 import { actions as eventActions } from '_reducers/event'
 import { newEvent, editEvent } from '_api';
+import {getUserEmail} from '../../authorization/auth'
 
 
 
@@ -20,7 +21,8 @@ const NewEventDisplay = ({
     values,
     setFieldValue,
     values: { guests: initialGuests },
-    values: { products: initialProducts }
+    values: { products: initialProducts },
+    values: { date: initialDate }
 }) => {
     return (
         <Fragment>
@@ -44,6 +46,9 @@ const NewEventDisplay = ({
                 <Products onChange={setFieldValue} value={initialProducts} />
                 <br />
                 <DeadlineConfirmation event={values.event} />
+                <br />
+                <label><I18n id="newEventForm.date" /></label>
+                <Field type="date" name="date" value={initialDate}/>
                 <br />
                 <button type="submit"><I18n id="newEventForm.createEvent" /></button>
 
@@ -99,7 +104,8 @@ const GenericEventForm = withFormik({
     },
     handleSubmit(values, props) {
         const bodyREST = {
-
+            "creatorEmail": getUserEmail(),
+            "dayOfEvent": values.date,
             "productsNeeded": values.products.map(function (p) {
                 return {
                     "product": {
@@ -170,7 +176,8 @@ function EditEventForm({ evento }) {
         guests: evento.guestsMails.map((g) => ({ value: g, label: g })),
         products: evento.productsNeeded.map(p => ({ id: randomId(), name: p.product.name, price: p.product.price, category: "", qty: p.amount })),
         name: evento.name,
-        description: evento.description
+        description: evento.description,
+        date: evento.dayOfEvent.substring(0,10)
     };
     return <GenericEventForm valoresIniciales={valoresIniciales} apiFunction={editEvent(evento.id)} />
 }
