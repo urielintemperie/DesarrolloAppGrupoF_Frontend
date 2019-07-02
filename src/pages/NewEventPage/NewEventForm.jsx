@@ -6,9 +6,9 @@ import Products from './Products'
 import I18n from '../../I18n'
 import { connect } from 'react-redux'
 import { actions as eventActions } from '_reducers/event'
-import { newEvent, editEvent } from '_api';
+import { newEvent, editEvent,confirmAssistance } from '_api';
 import {getUserEmail} from '../../authorization/auth'
-
+import { withRouter } from 'react-router-dom'
 
 
 
@@ -27,7 +27,7 @@ const NewEventDisplay = ({
     return (
         <Fragment>
             <h1>
-            {values.name === "" ?
+            {values.newForm ?
             (<I18n id="newEventForm.title" />)
             :
             (<I18n id="newEventForm.titleEdit" />)
@@ -104,7 +104,7 @@ function randomId() {
     return (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
 }
 
-const GenericEventForm = withFormik({
+const GenericEventForm = withRouter(withFormik({
     mapPropsToValues: (props) => {
         return props.valoresIniciales;
     },
@@ -113,7 +113,7 @@ const GenericEventForm = withFormik({
         let guestsMails = values.guests.map(function (x) {
             return x.label
         });
-        if(!guestsMails.includes(userEmail)) { guestsMails.push(userEmail) }
+        //if(!guestsMails.includes(userEmail)) { guestsMails.push(userEmail) }
         const bodyREST = {
             "creatorEmail": userEmail,
             "dayOfEvent": values.date,
@@ -133,10 +133,14 @@ const GenericEventForm = withFormik({
         };
 
         props.props.apiFunction(bodyREST)
+        .then((e) => {
+            if(values.newForm) { confirmAssistance(e.id) }
+        }).then(() => props.props.history.push('/home') )
+        
 
 
     }
-})(NewEventDisplay)
+})(NewEventDisplay))
 
 
 
@@ -174,7 +178,8 @@ function NewEventForm() {
         guests: [],
         products: [],
         name: "",
-        description: ""
+        description: "",
+        newForm: true
     };
     return <GenericEventForm valoresIniciales={valoresIniciales} apiFunction={newEvent} />
 }
@@ -186,7 +191,8 @@ function EditEventForm({ evento }) {
         products: evento.productsNeeded.map(p => ({ id: randomId(), name: p.product.name, price: p.product.price, category: "", qty: p.amount })),
         name: evento.name,
         description: evento.description,
-        date: evento.dayOfEvent.substring(0,10)
+        date: evento.dayOfEvent.substring(0,10),
+        newForm: false
     };
     return <GenericEventForm valoresIniciales={valoresIniciales} apiFunction={editEvent(evento.id)} />
 }
