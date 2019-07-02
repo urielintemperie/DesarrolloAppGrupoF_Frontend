@@ -1,7 +1,9 @@
 {
   "newEventForm.title": "NUEVO EVENTO",
+  "newEventForm.titleEdit": "EDITAR EVENTO",
   "newEventForm.eventName": "Nombre del evento:",
   "newEventForm.description": "Descripcion:",
+  "newEventForm.date": "Fecha del evento:",
   "newEventForm.party":"Fiesta",
   "newEventForm.collect": "Baquita",
   "newEventForm.basquet": "Canasta",

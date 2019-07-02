@@ -7,6 +7,7 @@ import I18n from '../../I18n'
 import { connect } from 'react-redux'
 import { actions as eventActions } from '_reducers/event'
 import { newEvent, editEvent } from '_api';
+import {getUserEmail} from '../../authorization/auth'
 
 
 
@@ -20,11 +21,18 @@ const NewEventDisplay = ({
     values,
     setFieldValue,
     values: { guests: initialGuests },
-    values: { products: initialProducts }
+    values: { products: initialProducts },
+    values: { date: initialDate }
 }) => {
     return (
         <Fragment>
-            <h1><I18n id="newEventForm.title" /></h1>
+            <h1>
+            {values.name === "" ?
+            (<I18n id="newEventForm.title" />)
+            :
+            (<I18n id="newEventForm.titleEdit" />)
+            }
+            </h1>
             <Form>
                 <label><I18n id="newEventForm.eventName" /></label>
                 <Field type="text" name="name" placeholder="Nombre del evento" />
@@ -44,6 +52,9 @@ const NewEventDisplay = ({
                 <Products onChange={setFieldValue} value={initialProducts} />
                 <br />
                 <DeadlineConfirmation event={values.event} />
+                <br />
+                <label><I18n id="newEventForm.date" /></label>
+                <Field type="date" name="date" value={initialDate}/>
                 <br />
                 <button type="submit"><I18n id="newEventForm.createEvent" /></button>
 
@@ -98,8 +109,14 @@ const GenericEventForm = withFormik({
         return props.valoresIniciales;
     },
     handleSubmit(values, props) {
+        let userEmail = getUserEmail();
+        let guestsMails = values.guests.map(function (x) {
+            return x.label
+        });
+        if(!guestsMails.includes(userEmail)) { guestsMails.push(userEmail) }
         const bodyREST = {
-
+            "creatorEmail": userEmail,
+            "dayOfEvent": values.date,
             "productsNeeded": values.products.map(function (p) {
                 return {
                     "product": {
@@ -109,9 +126,7 @@ const GenericEventForm = withFormik({
                     "amount": p.qty
                 }
             }),
-            "guestsMails": values.guests.map(function (x) {
-                return x.label
-            }),
+            "guestsMails": guestsMails,
             "eventType": values.event,
             "name": values.name,
             "description": values.description
@@ -170,7 +185,8 @@ function EditEventForm({ evento }) {
         guests: evento.guestsMails.map((g) => ({ value: g, label: g })),
         products: evento.productsNeeded.map(p => ({ id: randomId(), name: p.product.name, price: p.product.price, category: "", qty: p.amount })),
         name: evento.name,
-        description: evento.description
+        description: evento.description,
+        date: evento.dayOfEvent.substring(0,10)
     };
     return <GenericEventForm valoresIniciales={valoresIniciales} apiFunction={editEvent(evento.id)} />
 }
