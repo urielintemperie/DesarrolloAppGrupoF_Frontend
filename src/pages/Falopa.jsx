@@ -101,12 +101,16 @@ class GenericEventInfo extends Component {
         this.setState({ attendees: newAttendees })
     }
 
+
     render() {
         const guests =
             <Fragment>
                 <h3>Invitados</h3>
                 <MailList mails={this.props.event.guestsMails} />
             </Fragment>
+
+
+        const isMyEvent = (this.props.event.creatorEmail === getUserEmail())
 
         return (
             <Fragment>
@@ -119,7 +123,7 @@ class GenericEventInfo extends Component {
 
                 <h3>Asistentes</h3>
                 <MailList mails={this.state.attendees} />
-                {this.props.event.productsNeeded.length === 0 ? "" : <ProductsDisplay productsNeeded={this.props.event.productsNeeded} />}
+                {this.props.event.productsNeeded.length === 0 ? "" : <ProductsDisplay attendees={this.state.attendees.length} productsNeeded={this.props.event.productsNeeded} type={this.props.event.eventType} myEvent={isMyEvent} />}
                 <GenericButtons updateBasket={this.props.updateEvent} updateAttendees={this.updateAttendees} creator={this.props.event.creatorEmail} event={this.props.event} />
             </Fragment>)
     }
@@ -176,7 +180,6 @@ class GenericButtons extends Component {
 
         const myButtons =
             <Fragment>
-                {this.state.party && <h1>EL COSTO TOTAL ES: ${this.partyCalculateCost()}</h1>}
 
                 <Button color="primary" onClick={this.confirmAssistance} disabled={this.state.disableConfirm}><I18n id="eventDisplay.confirmAssistanceButton" /></Button>
                 <Link to={`/event/edit/${this.props.event.id}`}><Button color="primary"><I18n id="eventDisplay.editEventButton" /></Button></Link>
@@ -187,7 +190,6 @@ class GenericButtons extends Component {
 
         return (
             <Fragment>
-                {this.state.collect && <h1>TU PARTE DEL EVENTO ES: ${this.collectCalculateCost()}</h1>}
                 {this.state.basket && <BasketConfirmationInfo updateBasket={this.props.updateBasket} event={this.props.event} />}
                 {this.state.isMyEvent && myButtons}
                 {!this.state.isMyEvent && otherButtons}
@@ -298,25 +300,56 @@ class MailList extends Component {
 }
 
 function ProductsDisplay(props) {
+
+    function partyPrice() {
+        var prices = []
+        props.productsNeeded.map((product) => prices.push(product.product.price * (product.amount * props.attendees)))
+        return prices.reduce((a, b) => a + b, 0)
+    }
+
+    function collectPrice() {
+        var prices = []
+        props.productsNeeded.map((product) => prices.push(product.product.price * (product.amount * props.attendees)))
+        if (props.attendees === 0) {
+            return partyPrice()
+        } else {
+            return prices.reduce((a, b) => a + b, 0) / props.attendees
+        }
+
+    }
+
     return (
-        <Fragment>
+
+        < Fragment >
             <h3>Lista de productos</h3>
+            <h1>{props.type}</h1>
+            <h1>{props.myEvent.toString()}</h1>
+
             <Row>
                 <Col><h4><I18n id="eventDisplay.product.product" /></h4></Col>
                 <Col><h4><I18n id="eventDisplay.product.quantity" /></h4></Col>
                 <Col><h4><I18n id="eventDisplay.product.price" /></h4></Col>
             </Row>
+
             {props.productsNeeded.map((product) => {
                 return (
                     <Row key={uniqueListId()}>
+
                         <Col>{product.product.name}</Col>
-                        <Col>{product.product.price}</Col>
-                        <Col>{product.amount}</Col>
+                        <Col>{props.attendees === 0 ? product.amount : product.amount * props.attendees}</Col>
+                        <Col>{props.attendees === 0 ? product.product.price : product.product.price * (product.amount * props.attendees)}</Col>
                     </Row>
                 )
             }
-            )}
-        </Fragment>
+
+            )
+            }
+
+
+            <h3>{props.type === "Collect" && (collectPrice() !== 0) ? "Deberias pagar: $" + collectPrice() : ""}</h3>
+            <h3>{props.type === "Party" && (partyPrice() !== 0) && props.myEvent ? "Total a pagar: $" + partyPrice() : ""}</h3>
+
+        </Fragment >
     )
 }
 
