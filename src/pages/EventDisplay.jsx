@@ -2,14 +2,14 @@ import React, { Component, Fragment } from 'react'
 import { Button, Row, Col } from 'reactstrap'
 import Select from 'react-select'
 import I18n from '../I18n'
-import { deleteEventById } from '_api'
+import { deleteEventById, confirmAssistance, reserveProduct } from '_api'
 import { Link } from 'react-router-dom';
 import { getUserEmail } from 'authorization/auth'
 
 function EventDisplay(props) {
     return (
         <Fragment>
-            <GenericEventInformation name={props.event.name} description={props.event.description} date={props.event.dayOfEvent} deadline={props.event.deadlineConfirmation} productsNeeded={props.event.productsNeeded} />
+            <GenericEventInformation event={props.event} />
             <SpecificEventInformation type={props.event.eventType} event={props.event} />
         </Fragment>
     )
@@ -18,14 +18,41 @@ function EventDisplay(props) {
 function GenericEventInformation(props) {
 
     var deadline = <I18n id="eventDisplay.party.confirmationDeadline" />
+    const productsReserved =
+        <Fragment>
+            <h3>Productos reservados:</h3>
+            {props.productsNeeded.map((product) => {
+                return (
+                    <h4 key={uniqueProductId()}>
+                        {product}</h4>
+                )
+            }
+            )}
+        </Fragment>
+
 
     return (
         <Fragment>
-            <h3><I18n id="eventDisplay.eventName" /> {props.name}</h3>
-            <h3><I18n id="eventDisplay.eventDescription" /> {props.description}</h3>
-            <h3><I18n id="eventDisplay.eventDate" /> {props.date.split("T00:00:00")}</h3>
-            <h3>{props.deadline ? deadline : ""} <span>{props.deadline ? props.deadline.split("T00:00:00") : ""}</span></h3>
-            <ProductsDisplay productsNeeded={props.productsNeeded} />
+            <h3><I18n id="eventDisplay.eventName" /> {props.event.name}</h3>
+            <h3><I18n id="eventDisplay.eventDescription" /> {props.event.description}</h3>
+            <h3><I18n id="eventDisplay.eventDate" /> {props.event.dayOfEvent.split("T00:00:00")}</h3>
+            <h3>{props.event.deadline ? deadline : ""} <span>{props.deadline ? props.event.deadline.split("T00:00:00") : ""}</span></h3>
+            <h3>Invitados:</h3>
+            {props.event.guestsMails.map((mail) => {
+                return (
+                    <h4 key={uniqueProductId()}>{mail}</h4>
+                )
+            }
+            )}
+            <h3>Asistentes:</h3>
+            {props.event.attendees.map((mail) => {
+                return (
+                    <h4 key={uniqueProductId()}>{mail}</h4>
+                )
+            }
+            )}
+            <ProductsDisplay productsNeeded={props.event.productsNeeded} />
+            {props.event.eventType === "Basket" ? productsReserved : ""}
         </Fragment>
     )
 }
@@ -38,7 +65,7 @@ class SpecificEventInformation extends Component {
             party: false,
             basket: false,
             collect: false,
-            disableConfirm: false
+            disableConfirm: this.props.event.attendees.includes(getUserEmail())
         }
 
         this.confirmAssistance = this.confirmAssistance.bind(this);
@@ -51,6 +78,7 @@ class SpecificEventInformation extends Component {
         if (this.props.type === "Basket") { this.setState({ basket: true }) }
         if (this.props.type === "Collect") { this.setState({ collect: true }) }
         this.setState({ disableConfirm: true })
+        confirmAssistance(this.props.event.id)
     }
 
     deleteEvent() {
@@ -137,17 +165,23 @@ class BasketDisplay extends Component {
         }
 
         this.onChange = this.onChange.bind(this)
+        this.reserveProduct = this.reserveProduct.bind(this)
     }
 
     onChange(value) {
-        this.setState({ product: value })
+        this.setState({ product: value.substr(0, value.indexOf(' - ')) })
+    }
+
+    reserveProduct() {
+        reserveProduct(this.props.event.id, this.state.product)
     }
 
     render() {
         return (
             <Fragment>
+
                 <ProductsSelector onChange={this.onChange} products={this.props.event.productsNeeded} />
-                <Button color="primary"><I18n id="eventDisplay.basket.reserveProductButton" /></Button>
+                <Button color="primary" onClick={this.reserveProduct}><I18n id="eventDisplay.basket.reserveProductButton" /></Button>
             </Fragment>
         )
     }
@@ -156,7 +190,7 @@ class BasketDisplay extends Component {
 
 function CollectDisplay(props) {
 
-    return (<h3><I18n id="eventDisplay.collect.shouldPay" />{(props.event.productsNeeded.map((item)=> item.product.price).reduce((a,b)=> a + b,0)/props.event.attendees.length)}</h3>)
+    return (<h3><I18n id="eventDisplay.collect.shouldPay" />{(props.event.productsNeeded.map((item) => item.product.price).reduce((a, b) => a + b, 0) / props.event.attendees.length)}</h3>)
 }
 
 

@@ -13,7 +13,7 @@ import NavBar from 'NavBar'
 import Callback from 'authorization/Callback'
 import AccountPage from '../pages/AccountPage/AccountPage'
 import { EditEventPage } from '../pages/EditEventPage/EditEventPage';
-
+import HomePageCami from 'pages/HomePage/HomePageCami'
 
 
 
@@ -61,7 +61,7 @@ class App extends React.Component {
                                     <Route path="/callback" component={Callback} />
                                     <Route path="/account" component={AccountPage} />
                                     <Route path="/loan" component={LoanPage} />
-                                    <Route path="/home" component={HomePage}/>
+                                    <Route path="/home" component={HomePageCami}/>
                                     <Route path="/event/edit/:eventId" component={EditEventPage} />
                                     <Route component={NoMatch} />
                                 </Switch>

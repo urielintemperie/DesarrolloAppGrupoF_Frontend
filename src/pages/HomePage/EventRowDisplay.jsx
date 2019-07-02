@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react'
-import { Card, CardTitle, Pagination, PaginationItem, PaginationLink, CardBody, CardSubtitle } from 'reactstrap'
+import { Pagination, PaginationItem, PaginationLink} from 'reactstrap'
 import Box from '@material-ui/core/Box'
+import CardEvent from './CardEvent'
 
 class EventRowDisplay extends Component {
     constructor(props) {
@@ -75,18 +76,7 @@ function EventsCardDisplay(props) {
     )
 }
 
-function CardEvent(props) {
-    return (
 
-        <Card outline color="primary" style={{ width: '150px' }} >
-            <CardBody>
-                <CardTitle><b>{props.event.name}</b></CardTitle>
-                <CardSubtitle>{props.event.description}</CardSubtitle>
-                <CardSubtitle>{props.event.dayOfEvent.split('T00:00:00')}</CardSubtitle>
-            </CardBody>
-        </Card>
-    )
-}
 
 function EventPagination(props) {
 

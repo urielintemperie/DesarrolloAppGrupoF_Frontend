@@ -78,7 +78,7 @@ export function fetchPopularEvents(page, size) {
     )
 }
 
-export function fetchLastEvents(page,size){
+export function fetchLastEvents(page, size) {
     return (
         axios.get(`http://localhost:8080/event/last/${email}/` + page + '/' + size)
             .then(({ data }) => data)
@@ -86,7 +86,29 @@ export function fetchLastEvents(page,size){
 }
 
 
-const getEvento = (eventoId) => request('get', `/event/${eventoId}`);
+export function confirmAssistance(eventId) {
+    return (
+        axios.post(`http://localhost:8080/event/${eventId}/assist/${email}/`)
+
+    )
+}
+
+
+
+export function reserveProduct(eventId, productName) {
+    return (
+        axios.put(`http://localhost:8080/event/reserve/${eventId}/${productName}/${email}/`)
+            .then(({ data }) => data)
+    )
+}
+
+export function getEventById(eventId) {
+    return (
+        axios.get(`http://localhost:8080/event/${eventId}`)
+    )
+}
+
+const getEvento = (eventoId) => request('get', `/event/${eventoId}`).then(({ data }) => data)
 const getTodosEventos = () => request('get', `/events`);
 const deleteEventById = (id) => request('delete', `/event/delete/${id}`);
 const newEvent = (body) => request('post', '/event/new', body);
