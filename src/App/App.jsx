@@ -7,7 +7,7 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../pages/HomePage';
 import { RegisterPage } from '../pages/RegisterPage';
 import LoanPage from '../pages/AccountPage/LoanPage'
-import {NewEventForm }from '../pages/NewEventPage/NewEventForm'
+import {NewEventForm, NewTemplateForm }from '../pages/NewEventPage/NewEventForm'
 import { actions as i18nActions } from '_reducers/i18n'
 import NavBar from 'NavBar'
 import Callback from 'authorization/Callback'
@@ -58,6 +58,7 @@ class App extends React.Component {
                                     <PrivateRoute exact path="/" component={HomePage} />
                                     <Route path="/register" component={RegisterPage} />
                                     <Route path="/event/new" component={NewEventForm} />
+                                    <Route path="/template/new" component={NewTemplateForm} />
                                     <Route path="/callback" component={Callback} />
                                     <Route path="/account" component={AccountPage} />
                                     <Route path="/loan" component={LoanPage} />
