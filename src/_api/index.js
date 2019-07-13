@@ -113,5 +113,8 @@ const getTodosEventos = () => request('get', `/events`);
 const deleteEventById = (id) => request('delete', `/event/delete/${id}`);
 const newEvent = (body) => request('post', '/event/new', body);
 const editEvent = id => body => request('put', `/event/edit/${id}`, body);
+const newTemplate = (body) => request('post', '/template/new', body);
+const editTemplate = id => body => request('put', `/template/edit/${id}`, body);
+const deleteTemplateById = (id) => request('delete', `/template/delete/${id}`);
 
-export { getEvento, getTodosEventos, deleteEventById, newEvent, editEvent };
+export { getEvento, getTodosEventos, deleteEventById, newEvent, editEvent, deleteTemplateById, newTemplate, editTemplate };
