@@ -7,12 +7,11 @@ import { newEvent, editEvent, newTemplate } from '_api';
 import { getUserEmail } from '../../authorization/auth'
 import { withRouter } from 'react-router-dom'
 import GuestSelector from './GuestSelector';
-import Pepita from './pepita'
 import { DatePicker } from '@material-ui/pickers'
 
 
-var date = new Date()
-var tomorrow = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+var today = new Date()
+var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
 
 const NewEventDisplay = ({
     values,
@@ -46,8 +45,8 @@ const NewEventDisplay = ({
 
                 <br />
 
-                <label><I18n id="newEventForm.guests"/></label>
-                <Field name="guests" component={GuestSelector}/>
+                <label><I18n id="newEventForm.guests" /></label>
+                <Field name="guests" component={GuestSelector} />
                 <ErrorMessage name="guests" component="div" />
 
                 <Products onChange={setFieldValue} value={initialProducts} />
@@ -64,10 +63,10 @@ const NewEventDisplay = ({
                     format="dd/MM/yyyy"
                     value={tomorrow}
                     onChange={day => {
-                        date = day
-                        setFieldValue("date", date.toISOString().split("T")[0])
+                        tomorrow = day
+                        setFieldValue("date", tomorrow.toISOString().split("T")[0])
                     }}
-                    disablePast
+                    shouldDisableDate={disablePrevDates(today)}
                 />
 
                 <br />
@@ -77,6 +76,13 @@ const NewEventDisplay = ({
 
         </Fragment>
     )
+}
+
+function disablePrevDates(startDate) {
+    const startSeconds = Date.parse(startDate);
+    return (date) => {
+        return Date.parse(date) < startSeconds;
+    }
 }
 
 function DeadlineConfirmation(props) {
