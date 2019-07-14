@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+
 import CreatableSelect from 'react-select/creatable';
 
 const components = {
@@ -16,7 +17,7 @@ export default class GuestSelector extends Component {
     this.state = {
       inputValue: '',
       value: [],
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -24,16 +25,21 @@ export default class GuestSelector extends Component {
   }
 
   handleChange = (value) => {
-    this.setState({ value });
-  };
+    if (value != null) {
+      this.setState({ value });
+      this.props.form.setFieldValue('guests', value.map(opt => opt.value))
+    } else {
+      this.setState({ value: [] })
+    }
+  }
 
   handleInputChange = (inputValue) => {
     this.setState({ inputValue });
-  };
+  }
 
   handleKeyDown = (event) => {
     const { inputValue, value } = this.state;
-    var guests = this.state.value.map((val) => val.value)
+    var guests = this.state.value.map(opt => opt.value)
     if (!inputValue) return;
     // eslint-disable-next-line default-case
     switch (event.key) {
@@ -45,9 +51,9 @@ export default class GuestSelector extends Component {
         });
         this.props.form.setFieldValue('guests', guests.concat(inputValue))
 
+        event.preventDefault();
     }
-
-  };
+  }
 
   render() {
     const { inputValue, value } = this.state;
@@ -62,7 +68,7 @@ export default class GuestSelector extends Component {
           onChange={this.handleChange}
           onInputChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
-          placeholder="Type your guests emails"
+          placeholder="Ingresa los emails de tus inivtados"
           value={value}
         />
       </Fragment>

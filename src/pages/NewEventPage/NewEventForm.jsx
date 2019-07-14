@@ -7,6 +7,7 @@ import { newEvent, editEvent, newTemplate } from '_api';
 import { getUserEmail } from '../../authorization/auth'
 import { withRouter } from 'react-router-dom'
 import GuestSelector from './GuestSelector';
+import Pepita from './pepita'
 import { DatePicker } from '@material-ui/pickers'
 
 
@@ -44,10 +45,10 @@ const NewEventDisplay = ({
                 </Field>
 
                 <br />
-                <label><I18n id="newEventForm.guests" /></label>
-                <Field name="guests" component={GuestSelector} />
+
+                <label><I18n id="newEventForm.guests"/></label>
+                <Field name="guests" component={GuestSelector}/>
                 <ErrorMessage name="guests" component="div" />
-                <br />
 
                 <Products onChange={setFieldValue} value={initialProducts} />
                 <ErrorMessage name="products" component="div" />
@@ -102,6 +103,7 @@ function randomId() {
 
 function validateMails(mails) {
 
+    console.log("validando los mails: ", mails)
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return (mails.filter(mail => !re.test(mail)).length) > 0
 
