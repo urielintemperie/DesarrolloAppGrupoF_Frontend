@@ -1,21 +1,17 @@
 
 import React, { Component, Fragment } from 'react'
 import { withFormik, Form, Field, ErrorMessage } from 'formik'
-import Select from 'react-select'
 import Products from './Products'
 import I18n from '../../I18n'
-import { connect } from 'react-redux'
-import { actions as eventActions } from '_reducers/event'
-import { newEvent, editEvent,confirmAssistance, newTemplate } from '_api';
-import {getUserEmail} from '../../authorization/auth'
+import { newEvent, editEvent, newTemplate } from '_api';
+import { getUserEmail } from '../../authorization/auth'
 import { withRouter } from 'react-router-dom'
+import GuestSelector from './GuestSelector';
+import { DatePicker } from '@material-ui/pickers'
 
 
-
-const options = [
-    { value: 'camila.cintioli@gmail.com', label: 'camila.cintioli@gmail.com' },
-    { value: 'urielintemperie@gmail.com', label: 'urielintemperie@gmail.com' },
-];
+var date = new Date()
+var tomorrow = new Date(date.getTime() + (24 * 60 * 60 * 1000));
 
 const NewEventDisplay = ({
     values,
@@ -24,19 +20,23 @@ const NewEventDisplay = ({
     values: { products: initialProducts },
     values: { date: initialDate }
 }) => {
+
     return (
         <Fragment>
             <h1>
-            {correspondingTitle(values.typeForm)}
+                {correspondingTitle(values.typeForm)}
             </h1>
             <Form>
                 <label><I18n id="newEventForm.eventName" /></label>
                 <Field type="text" name="name" placeholder="Nombre del evento" />
                 <ErrorMessage name="name" component="div" />
+
                 <br />
                 <label><I18n id="newEventForm.description" /></label>
                 <Field type="text" name="description" placeholder="Descripcion del evento" />
                 <br />
+
+
                 <Field component="select" name="event">
                     <option value="Party"><I18n id="newEventForm.party" /></option>
                     <option value="Collect">Baquita</option>
@@ -44,18 +44,31 @@ const NewEventDisplay = ({
                 </Field>
 
                 <br />
-                <GuestSelector onChange={setFieldValue} value={initialGuests} />
+                <label><I18n id="newEventForm.guests" /></label>
+                <Field name="guests" component={GuestSelector} />
                 <ErrorMessage name="guests" component="div" />
                 <br />
+
                 <Products onChange={setFieldValue} value={initialProducts} />
                 <ErrorMessage name="products" component="div" />
+
                 <br />
                 <DeadlineConfirmation event={values.event} />
                 <ErrorMessage name="deadline" component="div" />
                 <br />
+
+
                 <label><I18n id="newEventForm.date" /></label>
-                <Field type="date" name="date" value={initialDate} min={new Date().toISOString().split("T")[0]}/>
-                <ErrorMessage name="date" component="div" />
+                <DatePicker
+                    format="dd/MM/yyyy"
+                    value={tomorrow}
+                    onChange={day => {
+                        date = day
+                        setFieldValue("date", date.toISOString().split("T")[0])
+                    }}
+                    disablePast
+                />
+
                 <br />
                 <button type="submit"><I18n id="newEventForm.createEvent" /></button>
 
@@ -64,8 +77,6 @@ const NewEventDisplay = ({
         </Fragment>
     )
 }
-
-
 
 function DeadlineConfirmation(props) {
     const isParty = props.event === "Party"
@@ -85,62 +96,50 @@ function DeadlineConfirmation(props) {
 
 }
 
-
-// const NewEventForm = withFormik({
-//     mapPropsToValues({event}){
-//         return {
-//             event: event || 'basket',
-//             guests: [],
-//             products: [],
-//             name:"",
-//             description:""
-//         }
-//     },
-//     handleSubmit(values, {props}) {
-//         const event = {
-
-
-
 function randomId() {
     return (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
 }
 
+function validateMails(mails) {
 
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return (mails.filter(mail => !re.test(mail)).length) > 0
+
+}
 const validation = (values, props) => {
+
     let errors = {};
 
     if (!values.name) {
-        errors.name = 'Required';
+        errors.name = 'The name of the event is required';
     }
 
-    // console.log("guests is null " + (values.guests === null))
-    // console.log("guests dice null " + (values.guests === "null"))
-    // console.log("guests " + values.guests)
     if (!(values.guests.length > 0)) {
         errors.guests = 'Required at least 1 guest';
     }
 
-    if (!values.guests) {
-        errors.guests = 'Required';
+    if (validateMails(values.guests)) {
+        errors.guests = 'Guests mails should me a valid email'
     }
+
 
     if (!values.date) {
         errors.date = 'Required';
     }
 
     if (values.event === 'Party' && !values.deadline) {
-        errors.deadline = 'Required';
+        errors.deadline = 'The deadline confirmation date is required for a party';
     }
 
-     if (values.products.length > 0){
-        if(values.products.every((p) => isNaN(p.price) || isNaN(p.qty))) {
-           errors.products = 'price and quantity of products have to be a number' 
+    if (values.products.length > 0) {
+        if (values.products.every((p) => isNaN(p.price) || isNaN(p.qty))) {
+            errors.products = 'price and quantity of products have to be a number'
         }
     }
-  
+
     return errors;
-  };
-  
+};
+
 
 const GenericEventForm = withRouter(withFormik({
     mapPropsToValues: (props) => {
@@ -148,13 +147,9 @@ const GenericEventForm = withRouter(withFormik({
     },
     validate: validation,
     handleSubmit(values, props) {
-        let userEmail = getUserEmail();
-        let guestsMails = values.guests.map(function (x) {
-            return x.label
-        });
 
-        
-        if(!guestsMails.includes(userEmail)) { guestsMails.push(userEmail) }
+        let userEmail = getUserEmail();
+
         const bodyREST = {
             "creatorEmail": userEmail,
             "dayOfEvent": values.date,
@@ -167,51 +162,21 @@ const GenericEventForm = withRouter(withFormik({
                     "amount": p.qty
                 }
             }),
-            "guestsMails": guestsMails,
+            "guestsMails": values.guests,
             "eventType": values.event,
             "name": values.name,
             "description": values.description
         };
 
         props.props.apiFunction(bodyREST)
-        .then((e) => {
-            if(values.typeForm == "newEvent") { confirmAssistance(e.id) }
-        }).then(() => props.props.history.push('/home') )
-        
+            .then(() => props.props.history.push('/home'))
+
 
 
     }
 })(NewEventDisplay))
 
 
-
-class GuestSelector extends Component {
-    handleChange = value => {
-        this.props.onChange('guests', value)
-    }
-
-    render() {
-        return (
-            <Fragment>
-                <h3><I18n id="newEventForm.guests" /></h3>
-                <Select
-                    options={options}
-                    isMulti={true}
-                    onChange={this.handleChange}
-                    value={this.props.value}
-                />
-            </Fragment>
-        )
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        createEvent: (event) => { dispatch(eventActions.add(event)) }
-    }
-}
-
-//export default connect(null, mapDispatchToProps)(NewEventForm); 
 
 function NewEventForm() {
     return NewForm(newEvent, "newEvent");
@@ -224,7 +189,7 @@ function EditEventForm({ evento }) {
         products: evento.productsNeeded.map(p => ({ id: randomId(), name: p.product.name, price: p.product.price, category: "", qty: p.amount })),
         name: evento.name,
         description: evento.description,
-        date: evento.dayOfEvent.substring(0,10),
+        date: evento.dayOfEvent.substring(0, 10),
         typeForm: "editEvent"
     };
     return <GenericEventForm valoresIniciales={valoresIniciales} apiFunction={editEvent(evento.id)} />
@@ -237,7 +202,7 @@ function NewForm(apiFunction, typeForm) {
         products: [],
         name: "",
         description: "",
-        date: "",
+        date: tomorrow.toISOString().split('T')[0],
         typeForm: typeForm
     };
     return <GenericEventForm valoresIniciales={valoresIniciales} apiFunction={apiFunction} />
@@ -248,16 +213,17 @@ function NewTemplateForm() {
 }
 
 function correspondingTitle(typeForm) {
-    switch(typeForm){
+    switch (typeForm) {
         case "newEvent":
             return <I18n id="newEventForm.title" />;
-            break;
+
         case "editEvent":
             return <I18n id="newEventForm.titleEdit" />;
-            break;
+
         case "newTemplate":
             return <I18n id="newTemplateForm.title" />;
-            break;
+
+        default: return ""
     }
 }
 
