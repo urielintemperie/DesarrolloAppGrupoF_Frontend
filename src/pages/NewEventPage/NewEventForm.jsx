@@ -105,9 +105,6 @@ function DeadlineConfirmation(props) {
             </label>
         </Fragment>
     )
-
-
-
 }
 
 function randomId() {
@@ -117,6 +114,11 @@ function randomId() {
 function validateMails(mails) {
 
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (mails.length > 0 && mails[0].value) {
+        return (mails.filter(mail => !re.test(mail.value)).length) > 0
+    }
+
     return (mails.filter(mail => !re.test(mail)).length) > 0
 
 }
@@ -135,7 +137,6 @@ const validation = (values, props) => {
     if (validateMails(values.guests)) {
         errors.guests = 'Guests mails should me a valid email'
     }
-
 
     if (!values.date) {
         errors.date = 'Required';
@@ -175,7 +176,7 @@ const GenericEventForm = withRouter(withFormik({
                     "amount": p.qty
                 }
             }),
-            "guestsMails": values.guests,
+            "guestsMails": values.guests.length > 0 && values.guests[0].value ? values.guests.map((opt) => opt.value) : values.guests,
             "eventType": values.event,
             "name": values.name,
             "description": values.description

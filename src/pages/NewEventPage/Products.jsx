@@ -18,6 +18,7 @@ class Products extends Component {
     var index = this.state.products.indexOf(product);
     this.state.products.splice(index, 1);
     this.setState(this.state.products);
+    this.props.onChange('products',this.state.products)
   };
 
   handleAddEvent(evt) {
