@@ -10,8 +10,10 @@ import GuestSelector from './GuestSelector';
 import { DatePicker } from '@material-ui/pickers'
 
 
+
 var today = new Date()
 var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+var tomorrowDeadline = new Date(today.getTime() + (24 * 60 * 60 * 1000));
 
 const NewEventDisplay = ({
     values,
@@ -38,22 +40,23 @@ const NewEventDisplay = ({
 
 
                 <Field component="select" name="event">
-                    <option value="Party"><I18n id="newEventForm.party" /></option>
+                    <option value="Party">Fiesta</option>
                     <option value="Collect">Baquita</option>
                     <option value="Basket">Canasta</option>
                 </Field>
 
                 <br />
 
-                <label><I18n id="newEventForm.guests" /></label>
-                <Field name="guests" component={GuestSelector} />
+                <GuestSelector guests={values.guests} setFieldValue={setFieldValue} />
                 <ErrorMessage name="guests" component="div" />
+
 
                 <Products onChange={setFieldValue} value={initialProducts} />
                 <ErrorMessage name="products" component="div" />
 
                 <br />
-                <DeadlineConfirmation event={values.event} />
+                {values.event === "Party" && <Field name="deadline" component={DeadlineConfirmation} />}
+
                 <ErrorMessage name="deadline" component="div" />
                 <br />
 
@@ -70,7 +73,7 @@ const NewEventDisplay = ({
                 />
 
                 <br />
-                <button type="submit"><I18n id="newEventForm.createEvent" /></button>
+                <button type="submit">{correspondingTitle(values.typeForm)}</button>
 
             </Form>
 
@@ -86,19 +89,23 @@ function disablePrevDates(startDate) {
 }
 
 function DeadlineConfirmation(props) {
-    const isParty = props.event === "Party"
-    if (isParty) {
-        return (
-            <Fragment>
-                <label>
-                    <I18n id="newEventForm.deadlineConfirmation" />
-                    <Field name="deadline" placeholder="Fecha" type="date" min={new Date().toISOString().split("T")[0]} />
-                </label>
-            </Fragment>
-        )
-    } else {
-        return <div></div>;
-    }
+    return (
+        <Fragment>
+            <label>
+                <I18n id="newEventForm.deadlineConfirmation" />
+                <DatePicker
+                    format="dd/MM/yyyy"
+                    value={tomorrowDeadline}
+                    onChange={day => {
+                        tomorrowDeadline = day
+                        props.form.setFieldValue("date", tomorrowDeadline.toISOString().split("T")[0])
+                    }}
+                    shouldDisableDate={disablePrevDates(today)}
+                />
+            </label>
+        </Fragment>
+    )
+
 
 
 }
@@ -109,7 +116,6 @@ function randomId() {
 
 function validateMails(mails) {
 
-    console.log("validando los mails: ", mails)
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return (mails.filter(mail => !re.test(mail)).length) > 0
 
@@ -155,9 +161,8 @@ const GenericEventForm = withRouter(withFormik({
     },
     validate: validation,
     handleSubmit(values, props) {
-
+        console.log(values)
         let userEmail = getUserEmail();
-
         const bodyREST = {
             "creatorEmail": userEmail,
             "dayOfEvent": values.date,
@@ -211,7 +216,8 @@ function NewForm(apiFunction, typeForm) {
         name: "",
         description: "",
         date: tomorrow.toISOString().split('T')[0],
-        typeForm: typeForm
+        typeForm: typeForm,
+        confirmation: ""
     };
     return <GenericEventForm valoresIniciales={valoresIniciales} apiFunction={apiFunction} />
 }

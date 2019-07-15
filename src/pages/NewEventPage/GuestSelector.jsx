@@ -16,7 +16,7 @@ export default class GuestSelector extends Component {
     super(props)
     this.state = {
       inputValue: '',
-      value: [],
+      value: props.guests.length > 0 ? props.guests : []
     };
 
     this.handleChange = this.handleChange.bind(this)
@@ -27,7 +27,7 @@ export default class GuestSelector extends Component {
   handleChange = (value) => {
     if (value != null) {
       this.setState({ value });
-      this.props.form.setFieldValue('guests', value.map(opt => opt.value))
+      this.props.setFieldValue('guests', value.map(opt => opt.value))
     } else {
       this.setState({ value: [] })
     }
@@ -49,7 +49,7 @@ export default class GuestSelector extends Component {
           inputValue: '',
           value: [...value, createOption(inputValue)],
         });
-        this.props.form.setFieldValue('guests', guests.concat(inputValue))
+        this.props.setFieldValue('guests', guests.concat(inputValue))
 
         event.preventDefault();
     }
