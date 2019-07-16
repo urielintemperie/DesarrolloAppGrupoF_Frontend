@@ -1,4 +1,6 @@
 {
+  "newEventForm.error.date" : "Required",
+  "newEventForm.error.guests" : "Required at least 1 guest",
   "newTemplateForm.title": "NEW TEMPLATE",
   "newEventForm.title": "NEW EVENT",
   "newEventForm.titleEdit": "EDIT EVENT",

@@ -45,7 +45,7 @@ class App extends React.Component {
         return (
             <div className="jumbotron">
                 <div className="container">
-                    <div className="col-sm-8 col-sm-offset-2">
+                    {/* <div className="col-sm-8 col-sm-offset-2"> */}
                         {alert.message &&
                             <div className={`alert ${alert.type}`}>{alert.message}</div>
                         }
@@ -55,7 +55,7 @@ class App extends React.Component {
 
                                 <NavBar />
                                 <Switch>
-                                    <PrivateRoute exact path="/" component={HomePage} />
+                                    <PrivateRoute exact path="/" component={HomePageCami} />
                                     <Route path="/register" component={RegisterPage} />
                                     <Route path="/event/new" component={NewEventForm} />
                                     <Route path="/template/new" component={NewTemplateForm} />
@@ -69,7 +69,7 @@ class App extends React.Component {
 
                             </div>
                         </Router>
-                    </div>
+                    {/* </div> */}
                 </div>
             </div>
         );

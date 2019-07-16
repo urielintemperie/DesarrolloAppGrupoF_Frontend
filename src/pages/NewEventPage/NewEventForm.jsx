@@ -125,7 +125,10 @@ const validation = (values, props) => {
     }
 
     if (!values.date) {
-        errors.date = 'Required';
+        var dateError = <I18n id="newEventForm.error.date" />;
+        errors.date = dateError;
+        // errors.date = 'Required';
+        // errors.date = <I18n id="newEventForm.title" />
     }
 
     if (values.event === 'Party' && !values.deadline) {

@@ -26,9 +26,13 @@ class CardEvent extends Component {
     }
 
     render() {
+        const divStyle = {
+            overflowY: 'scroll',
+            height: '550px'
+          };
         return (
             <Fragment>
-                <Card onClick={this.toggle} outline color="primary" style={{ width: '150px' }} >
+                <Card onClick={this.toggle} outline color="primary" style={{ width: '150px', marginRight: '2%' }} className="bg-light" >
                     <CardBody>
                         <CardTitle><b>{this.props.event.name}</b></CardTitle>
                         <CardSubtitle>{this.props.event.description}</CardSubtitle>
@@ -37,9 +41,9 @@ class CardEvent extends Component {
                 </Card>
 
                 <Modal isOpen={this.state.modal} fade={false} toggle={this.toggle} centered={true} backdrop="static">
-                    <ModalBody>
+                    <ModalBody style={divStyle}>
                         <Falopa event={this.props.event} />
-                        <Button onClick={this.onClose} color="secondary">Cerrar</Button>
+                        <Button onClick={this.onClose} color="secondary" className="btn-sm">Cerrar</Button>
                     </ModalBody>
                 </Modal>
             </Fragment>

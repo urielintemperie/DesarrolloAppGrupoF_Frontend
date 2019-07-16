@@ -1,4 +1,5 @@
 {
+  "newEventForm.error.date" : "Obligatorio",
   "newTemplateForm.title": "NUEVA PLANTILLA",
   "newEventForm.title": "NUEVO EVENTO",
   "newEventForm.titleEdit": "EDITAR EVENTO",

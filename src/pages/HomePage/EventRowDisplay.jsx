@@ -51,8 +51,12 @@ class EventRowDisplay extends Component {
     render() {
         return (
             <Fragment>
+                <div className="card-body">
                 <EventsCardDisplay events={this.props.events} />
+                </div>
+                <div class="card-footer">
                 <EventPagination totalPages={this.props.totalPages} nextPage={this.nextPage} prevPage={this.prevPage} goToPage={this.goToPage} />
+                </div>
             </Fragment>
         )
     }

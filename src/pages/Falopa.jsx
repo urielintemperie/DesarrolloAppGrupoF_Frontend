@@ -105,8 +105,10 @@ class GenericEventInfo extends Component {
     render() {
         const guests =
             <Fragment>
-                <h3>Invitados</h3>
+                <dt>Invitados</dt>
                 <MailList mails={this.props.event.guestsMails} />
+                {/* <h3>Invitados</h3>
+                <MailList mails={this.props.event.guestsMails} /> */}
             </Fragment>
 
 
@@ -115,7 +117,21 @@ class GenericEventInfo extends Component {
         return (
             <Fragment>
 
-                <h3><I18n id="eventDisplay.eventName" /> {this.props.event.name}</h3>
+                <dl class="dl-horizontal">
+                <dt><I18n id="eventDisplay.eventName" /></dt>
+                <dd>{this.props.event.name}</dd>
+                <dt><I18n id="eventDisplay.eventDescription" /></dt>
+                <dd>{this.props.event.description}</dd>
+                <dt><I18n id="eventDisplay.eventDate" /></dt>
+                <dd>{this.props.event.dayOfEvent.split("T00:00:00")}</dd>
+                <dt>Creador</dt>
+                <dd>{this.props.event.creatorEmail}</dd>
+                {this.props.event.guestsMails.length === 0 ? "" : guests}
+                <dt>Asistentes</dt>
+                <MailList mails={this.state.attendees} />
+                {this.props.event.productsNeeded.length === 0 ? "" : <ProductsDisplay attendees={this.state.attendees.length} productsNeeded={this.props.event.productsNeeded} type={this.props.event.eventType} myEvent={isMyEvent} />}
+                </dl>
+                {/* <h3><I18n id="eventDisplay.eventName" /> {this.props.event.name}</h3>
                 <h3><I18n id="eventDisplay.eventDescription" /> {this.props.event.description}</h3>
                 <h3><I18n id="eventDisplay.eventDate" /> {this.props.event.dayOfEvent.split("T00:00:00")}</h3>
                 <h3>Creador: {this.props.event.creatorEmail}</h3>
@@ -123,7 +139,7 @@ class GenericEventInfo extends Component {
 
                 <h3>Asistentes</h3>
                 <MailList mails={this.state.attendees} />
-                {this.props.event.productsNeeded.length === 0 ? "" : <ProductsDisplay attendees={this.state.attendees.length} productsNeeded={this.props.event.productsNeeded} type={this.props.event.eventType} myEvent={isMyEvent} />}
+                {this.props.event.productsNeeded.length === 0 ? "" : <ProductsDisplay attendees={this.state.attendees.length} productsNeeded={this.props.event.productsNeeded} type={this.props.event.eventType} myEvent={isMyEvent} />} */}
                 <GenericButtons updateBasket={this.props.updateEvent} updateAttendees={this.updateAttendees} creator={this.props.event.creatorEmail} event={this.props.event} />
             </Fragment>)
     }
@@ -191,6 +207,7 @@ class GenericButtons extends Component {
         return (
             <Fragment>
                 {this.state.basket && <BasketConfirmationInfo updateBasket={this.props.updateBasket} event={this.props.event} />}
+                <br></br><br></br>
                 {this.state.isMyEvent && myButtons}
                 {!this.state.isMyEvent && otherButtons}
             </Fragment>
@@ -230,7 +247,8 @@ class BasketConfirmationInfo extends Component {
     render() {
         return (
             <Fragment>
-                <h3>Productos reservados</h3>
+                <dt>Productos reservados</dt>
+                {/* <h3>Productos reservados</h3> */}
                 <MailList mails={this.state.reservedProducts} />
                 <ProductsSelector onChange={this.onChange} products={this.state.missingProducts} />
                 <Button color="primary" onClick={this.reserveProduct}><I18n id="eventDisplay.basket.reserveProductButton" /></Button>
@@ -257,7 +275,8 @@ class ProductsSelector extends Component {
 
         return (
             <Fragment>
-                <h3><I18n id="eventDisplay.basket.products" /></h3>
+                <dt><I18n id="eventDisplay.basket.products" /></dt>
+                {/* <h3><I18n id="eventDisplay.basket.products" /></h3> */}
 
                 <Select
                     defaultValue={options.length === 0 ? "" : options[0]}
@@ -287,12 +306,19 @@ class MailList extends Component {
         return (
             <Fragment>
 
-                {this.props.mails.map((mail) => {
-                    return (
-                        <h4 key={uniqueListId()}>{mail}</h4>
+                {
+                    (this.props.mails.length == 0) ?
+                    (<dl>~</dl>)
+                    :
+                    (
+                    this.props.mails.map((mail) => {
+                        return (
+                            <dl key={uniqueListId()}>{mail}</dl>
+                            // <h4 key={uniqueListId()}>{mail}</h4>
+                        )
+                    })
                     )
                 }
-                )}
             </Fragment>
         )
     }
@@ -321,17 +347,44 @@ function ProductsDisplay(props) {
     return (
 
         < Fragment >
-            <h3>Lista de productos</h3>
+            <dt>Tipo de evento</dt>
+            <dl>{props.type}</dl>
+            <dt>Lista de productos</dt>
+            {/* <h3>Lista de productos</h3>
             <h1>{props.type}</h1>
-            <h1>{props.myEvent.toString()}</h1>
+            <h1>{props.myEvent.toString()}</h1> */}
 
-            <Row>
-                <Col><h4><I18n id="eventDisplay.product.product" /></h4></Col>
+            <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col"><I18n id="eventDisplay.product.product" /></th>
+                    <th scope="col"><I18n id="eventDisplay.product.quantity" /></th>
+                    <th scope="col"><I18n id="eventDisplay.product.price" /></th>
+                </tr>
+            </thead>
+            <tbody>
+                {props.productsNeeded.map((product) => {
+                    return (
+                        <tr key={uniqueListId()}>
+                            <td>{product.product.name}</td>
+                            <td>{props.attendees === 0 ? product.amount : product.amount * props.attendees}</td>
+                            <td>{props.attendees === 0 ? product.product.price : product.product.price * (product.amount * props.attendees)}</td>
+                        </tr>
+                    )
+                }
+
+                )
+                }
+            </tbody>
+            </table>
+
+            {/* <Row>
+                <Col><h6><I18n id="eventDisplay.product.product" /></h6></Col>
                 <Col><h4><I18n id="eventDisplay.product.quantity" /></h4></Col>
                 <Col><h4><I18n id="eventDisplay.product.price" /></h4></Col>
-            </Row>
+            </Row> 
 
-            {props.productsNeeded.map((product) => {
+             {props.productsNeeded.map((product) => {
                 return (
                     <Row key={uniqueListId()}>
 
@@ -343,7 +396,7 @@ function ProductsDisplay(props) {
             }
 
             )
-            }
+            } */}
 
 
             <h3>{props.type === "Collect" && (collectPrice() !== 0) ? "Deberias pagar: $" + collectPrice() : ""}</h3>

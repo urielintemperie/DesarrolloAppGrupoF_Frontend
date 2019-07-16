@@ -22,8 +22,15 @@ function EventListDisplay(props) {
 function OngoingEvent(props) {
     return (
         <Fragment>
-            <h3><I18n id="homePage.ongoingEvents"/></h3>
-            <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
+            <div className="card" style={{marginTop:'3%'}}>
+                <div class="card-header">
+                    <h4><I18n id="homePage.ongoingEvents"/></h4>
+                </div>
+                {/* <div className="card-body"> */}
+                    {/* <h3><I18n id="homePage.ongoingEvents"/></h3> */}
+                    <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
+                {/* </div> */}
+            </div>
         </Fragment>
     )
 }
@@ -31,8 +38,12 @@ function OngoingEvent(props) {
 function PopularEvent(props) {
     return (
         <Fragment>
-            <h3><I18n id="homePage.popularEvents"/></h3>
-            <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
+             <div className="card" style={{marginTop:'3%'}}>
+                <div class="card-header">
+                    <h3><I18n id="homePage.popularEvents"/></h3>
+                </div>
+                <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
+            </div>
         </Fragment>
     )
 }
@@ -40,8 +51,12 @@ function PopularEvent(props) {
 function LastEvent(props) {
     return (
         <Fragment>
-            <h3><I18n id="homePage.lastEvents"/></h3>
-            <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
+            <div className="card" style={{marginTop:'3%'}}>
+                <div class="card-header">
+                    <h3><I18n id="homePage.lastEvents"/></h3>
+                </div>
+                <EventRowDisplay events={props.events} totalPages={props.totalPages} fetchEvents={props.fetchEvents} />
+            </div>
         </Fragment>
     )
 }

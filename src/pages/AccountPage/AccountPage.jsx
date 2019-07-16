@@ -66,7 +66,25 @@ function MovementHistory(props) {
     return (
         <Fragment>
             <h2><I18n id="accountPage.movements" /></h2>
-            <Row>
+            <div class="table-responsive">
+            <table className="table table-light table-striped table-bordered table-hover">
+                <thead>
+                    <tr>                    
+                    <th scope="col"><I18n id="accountPage.movement.type" /></th>
+                    <th scope="col"><I18n id="accountPage.movement.ammount" /></th>
+                    <th scope="col"><I18n id="accountPage.movement.date" /></th>
+                    <th scope="col"><I18n id="accountPage.movement.forFrom" /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.history.map(mov => {
+                        return (
+                            <MovementRow key={uniqueMovementId()} type={mov.movementType} ammount={mov.ammount} date={mov.date} user={mov.user} />
+                        );
+                    })}
+                </tbody>
+                </table>
+            {/* <Row>
                 <Col><h4><I18n id="accountPage.movement.type" /></h4></Col>
                 <Col><h4><I18n id="accountPage.movement.ammount" /></h4></Col>
                 <Col><h4><I18n id="accountPage.movement.date" /></h4></Col>
@@ -76,8 +94,8 @@ function MovementHistory(props) {
                 return (
                     <MovementRow key={uniqueMovementId()} type={mov.movementType} ammount={mov.ammount} date={mov.date} user={mov.user} />
                 );
-            })}
-
+            })} */}
+            </div>
         </Fragment>
     )
 }
@@ -85,13 +103,18 @@ function MovementHistory(props) {
 function MovementRow(props) {
     return (
         <Fragment>
-
-            <Row>
+            <tr>
+                <th scope="row">{props.type}</th>
+                <td><I18n id="accountPage.moneySign" />{props.ammount}</td>
+                <td>{props.date}</td>
+                <td>{props.user}</td>
+            </tr>
+            {/* <Row>
                 <Col><h5>{props.type}</h5></Col>
                 <Col><h5><I18n id="accountPage.moneySign" />{props.ammount}</h5></Col>
                 <Col> <h5>{props.date}</h5></Col>
                 <Col><h5>{props.user}</h5></Col>
-            </Row>
+            </Row> */}
 
 
         </Fragment>
